@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Island Soundboard | Gilligan's Island</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --ginger-red: #D94F3E;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; margin-left: 20px; }
+
+        .container { padding: 40px 20px; }
+        h1 { font-family: 'Bangers', cursive; font-size: 3.5rem; color: var(--ocean-blue); margin-bottom: 10px; }
+        .subtitle { margin-bottom: 40px; font-weight: bold; color: #555; }
+
+        /* Soundboard Layout */
+        .cast-member-row {
+            background: rgba(255,255,255,0.4);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .member-identity {
+            flex: 1;
+            min-width: 150px;
+            text-align: left;
+        }
+
+        .member-identity h3 { 
+            font-family: 'Bangers', cursive; 
+            font-size: 1.8rem; 
+            color: var(--ocean-blue); 
+            margin: 0; 
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 15px;
+            flex: 2;
+        }
+
+        .sound-btn {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            flex: 1;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #ccc;
+            transition: all 0.1s;
+            border: 2px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sound-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #ccc;
+        }
+
+        .sound-btn i { font-size: 1.5rem; color: var(--ginger-red); margin-bottom: 5px; }
+        .sound-btn span { font-size: 0.9rem; font-weight: bold; }
+
+        /* Animation when playing */
+        .playing {
+            border-color: var(--ginger-red) !important;
+            background-color: #fff9f9 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-volume-up"></i> Soundboard</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="container">
+       <h1> Island Soundboard</h1>
+        <p class="subtitle">Real clips from the S.S. Minnow crew!</p>
+
+        <div class="cast-member-row">
+            <div class="member-identity">
+                <h3>The Skipper</h3>
+            </div>
+            <div class="buttons-group">
+                <div class="sound-btn" onclick="playSound('Sbighead.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>"You Got A Big Head"</span>
+                </div>
+                <div class="sound-btn" onclick="playSound('Sneck.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>Put Your Neck In There</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cast-member-row">
+            <div class="member-identity">
+                <h3>Gilligan</h3>
+            </div>
+            <div class="buttons-group">
+                <div class="sound-btn" onclick="playSound('G1skipper.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>"I See Two"</span>
+                </div>
+                <div class="sound-btn" onclick="playSound('Gvampires.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>I'm A Vampire</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cast-member-row">
+            <div class="member-identity">
+                <h3>The Professor</h3>
+            </div>
+            <div class="buttons-group">
+                <div class="sound-btn" onclick="playSound('Pradioactive.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>Preventing Radioactivity</span>
+                </div>
+                <div class="sound-btn" onclick="playSound('Pworking.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>Working To Hard</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cast-member-row">
+            <div class="member-identity">
+                <h3>Mr. Howell</h3>
+            </div>
+            <div class="buttons-group">
+                <div class="sound-btn" onclick="playSound('THcompassion.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>"Know For Compassion"</span>
+                </div>
+                <div class="sound-btn" onclick="playSound('THoysters.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>Oysters Rockefeller</span>
+                </div>
+            </div>
+        </div>
+
+         <div class="cast-member-row">
+            <div class="member-identity">
+                <h3>Mrs. Howell</h3>
+            </div>
+            <div class="buttons-group">
+                <div class="sound-btn" onclick="playSound('LHpeaches.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>"Brandy Peaches"</span>
+                </div>
+                <div class="sound-btn" onclick="playSound('LHmaid.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>Downstairs Maid</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cast-member-row">
+            <div class="member-identity">
+                <h3>Mary Ann</h3>
+            </div>
+            <div class="buttons-group">
+                <div class="sound-btn" onclick="playSound('Mshewants.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>What Do You Want Most</span>
+                </div>
+                <div class="sound-btn" onclick="playSound('Myelling.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>Why Are You Yelling</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cast-member-row">
+            <div class="member-identity">
+                <h3>Ginger</h3>
+            </div>
+            <div class="buttons-group">
+                <div class="sound-btn" onclick="playSound('GGrockabybaby.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>Rock-A-Bye-Baby</span>
+                </div>
+                <div class="sound-btn" onclick="playSound('GGhourglass.mp3', this)">
+                    <i class="fas fa-play"></i>
+                    <span>I'm A Hourglass</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentAudio = null;
+
+        function playSound(file, element) {
+            // Stop current sound if one is playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                // Remove the "playing" class from all buttons
+                document.querySelectorAll('.sound-btn').forEach(btn => btn.classList.remove('playing'));
+            }
+
+            // Create new audio object
+            currentAudio = new Audio(file);
+            
+            // Add visual feedback
+            element.classList.add('playing');
+
+            // Play the sound
+            currentAudio.play();
+
+            // Remove visual feedback when sound finishes
+            currentAudio.onended = function() {
+                element.classList.remove('playing');
+            };
+        }
+    </script>
+</body>
+</html>

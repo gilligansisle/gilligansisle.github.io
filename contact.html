@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Castaway Log | Message in a Bottle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --ink: #2c3e50;
+            --parchment: #fdf5e6;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; margin-left: 20px; }
+
+        .container { padding: 40px 20px; }
+
+        .scroll-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--parchment);
+            padding: 50px;
+            border-radius: 5px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.2);
+            border: 2px solid #e0cda9;
+            position: relative;
+        }
+
+        h1 { font-family: 'Bangers', cursive; color: var(--ocean-blue); font-size: 3rem; }
+        
+        .form-group { text-align: left; margin-bottom: 20px; }
+        
+        label { font-family: 'Bangers'; color: var(--ink); font-size: 1.2rem; }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #d3b88c;
+            background: rgba(255,255,255,0.5);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            box-sizing: border-box;
+        }
+
+        .pigeon-btn {
+            background-color: var(--ocean-blue);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-family: 'Bangers';
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px auto 0;
+            transition: transform 0.2s;
+        }
+
+        .pigeon-btn:hover { transform: scale(1.05); background: #004d6d; }
+
+        #success-msg {
+            display: none;
+            padding: 40px;
+        }
+        
+        .bird-fly {
+            font-size: 4rem;
+            color: var(--ocean-blue);
+            animation: fly 3s infinite linear;
+        }
+
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0); }
+            50% { transform: translateX(0) translateY(-20px); }
+            100% { transform: translateX(100px) translateY(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-feather-alt"></i> The Log</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Send a Message</h1>
+        
+        <div class="scroll-container">
+            <form id="contact-form" action="https://formspree.io/f/xvzgwkon" method="POST">
+                <div class="form-group">
+                    <label>Gilligans Island Fan (or Castaway Alias):</label>
+                    <input type="text" name="name" placeholder="e.g. The Professor" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Return Coordinate (Email):</label>
+                    <input type="email" name="email" placeholder="Your email..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Message for the Crew:</label>
+                    <textarea name="message" rows="5" placeholder="Write your log entry here..." required></textarea>
+                </div>
+
+                <button type="submit" class="pigeon-btn">
+                    <i class="fas fa-dove"></i> SEND CARRIER PIGEON
+                </button>
+            </form>
+
+            <div id="success-msg">
+                <i class="fas fa-dove bird-fly"></i>
+                <h2 style="font-family: 'Bangers'; color: var(--ocean-blue);">FLIGHT SUCCESSFUL!</h2>
+                <p>Your message is on its way to the mainland. We hope the pigeon knows the way!</p>
+                <button class="pigeon-btn" onclick="location.reload()">Send Another</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('contact-form');
+        
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const status = document.getElementById("success-msg");
+            const data = new FormData(event.target);
+            
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    form.style.display = 'none';
+                    status.style.display = 'block';
+                    form.reset();
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            alert(data["errors"].map(error => error["message"]).join(", "));
+                        } else {
+                            alert("Oops! There was a problem submitting your form");
+                        }
+                    })
+                }
+            }).catch(error => {
+                alert("Oops! There was a problem submitting your form");
+            });
+        }
+        form.addEventListener("submit", handleSubmit);
+    </script>
+</body>
+</html>

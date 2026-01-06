@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Island Secrets | Scratch & Reveal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --ginger-red: #D94F3E;
+            --gold: #FFD700;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { font-family: 'Bangers', cursive; font-size: 1.8rem; display: flex; align-items: center; gap: 10px; }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; margin-left: 20px; }
+
+        .container { padding: 40px 20px; position: relative; }
+        h1 { font-family: 'Bangers', cursive; font-size: 3.5rem; color: var(--ocean-blue); margin: 0; }
+
+        /* Percentage Tracker Style */
+        .progress-container {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            color: var(--ginger-red);
+            margin: 10px 0;
+            background: white;
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 50px;
+            border: 2px solid var(--ocean-blue);
+        }
+
+        /* Scratch Box */
+        #scratch-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 10px auto;
+            border: 10px solid #fff;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            background: #333;
+        }
+
+        #hidden-image { width: 100%; height: 100%; object-fit: cover; }
+        #scratch-canvas { position: absolute; top: 0; left: 0; z-index: 10; cursor: crosshair; touch-action: none; }
+
+        /* Reward Popup */
+        #treasure-reward {
+            display: none;
+            position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            z-index: 20; background: white; padding: 30px; border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 5px solid var(--gold);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn { to { transform: translate(-50%, -50%) scale(1); } }
+
+        .btn {
+            background-color: var(--ginger-red); color: white; padding: 12px 25px;
+            border-radius: 50px; font-family: 'Bangers', cursive; font-size: 1.2rem;
+            border: none; cursor: pointer; margin-top: 15px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-anchor"></i> Gilligan's Island</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>BURIED TREASURE</h1>
+        <p>Scratch the gold cover to see what's hidden in the sand!</p> 
+ 
+        <div class="progress-container">
+            <i class="fas fa-shovels"></i> Progress: <span id="percent-text">0</span>% / 95%
+        </div>
+
+        <div id="scratch-container">
+            <img id="hidden-image" src="GI1.jpg">
+            <canvas id="scratch-canvas" width="400" height="400"></canvas>
+        </div>
+
+        <button class="btn" onclick="location.reload()">RE-HIDE TREASURE</button>
+
+        <div id="treasure-reward">
+            <div style="font-size: 80px;"><i class="fas fa-gem" style="color: #FFD700;"></i><br><i class="fas fa-box-open" style="color: #8B4513;"></i></div>
+            <h2 style="font-family: 'Bangers'; color: var(--ocean-blue);">TREASURE FOUND!</h2>
+            <p>You revealed the secret map!</p>
+            <button class="btn" onclick="document.getElementById('treasure-reward').style.display='none'">Awesome!</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('scratch-canvas');
+        const ctx = canvas.getContext('2d');
+        const reward = document.getElementById('treasure-reward');
+        const percentUI = document.getElementById('percent-text');
+        let isDrawing = false;
+        let totalPixels = 400 * 400;
+
+        // --- OCEAN SOUND ENGINE ---
+        let audioCtx;
+        function playOcean() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const bufferSize = 4 * audioCtx.sampleRate;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = buffer.getChannelData(0);
+            let b0=0, b1=0, b2=0, b3=0, b4=0, b5=0, b6=0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                b0 = 0.99886 * b0 + white * 0.0555179;
+                b1 = 0.99332 * b1 + white * 0.0750759;
+                b2 = 0.96900 * b2 + white * 0.1538520;
+                b3 = 0.86650 * b3 + white * 0.3104856;
+                b4 = 0.55000 * b4 + white * 0.5329522;
+                b5 = -0.7616 * b5 - white * 0.0168980;
+                output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                output[i] *= 0.11; b6 = white * 0.115926;
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer; noise.loop = true;
+            const gainNode = audioCtx.createGain();
+            function swell() {
+                const now = audioCtx.currentTime;
+                gainNode.gain.cancelScheduledValues(now);
+                gainNode.gain.setValueAtTime(0.02, now);
+                gainNode.gain.linearRampToValueAtTime(0.12, now + 4); 
+                gainNode.gain.linearRampToValueAtTime(0.02, now + 8);
+            }
+            swell(); setInterval(swell, 8000);
+            noise.connect(gainNode); gainNode.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        function setupCanvas() {
+            ctx.fillStyle = '#FFD700'; 
+            ctx.fillRect(0, 0, 400, 400);
+            for(let i=0; i<600; i++) {
+                ctx.fillStyle = '#DAA520';
+                ctx.fillRect(Math.random()*400, Math.random()*400, 2, 2);
+            }
+            ctx.fillStyle = '#8B6508';
+            ctx.font = '40px Bangers';
+            ctx.textAlign = 'center';
+            ctx.fillText('SCRATCH ME!', 200, 180);
+            ctx.font = '80px Arial';
+            ctx.fillText('⚓', 200, 280);
+            ctx.globalCompositeOperation = 'destination-out';
+        }
+
+        function checkProgress() {
+            const imageData = ctx.getImageData(0, 0, 400, 400);
+            let count = 0;
+            // Loop through alpha channel to count transparent pixels
+            for (let i = 0; i < imageData.data.length; i += 4) {
+                if (imageData.data[i + 3] === 0) count++;
+            }
+            
+            let percentage = Math.floor((count / totalPixels) * 100);
+            percentUI.textContent = percentage;
+
+            if (count > totalPixels * 0.95) {
+                reward.style.display = 'block';
+            }
+        }
+
+        function scratch(e) {
+            if (!isDrawing) return;
+            playOcean();
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const x = (clientX - rect.left) * (canvas.width / rect.width);
+            const y = (clientY - rect.top) * (canvas.height / rect.height);
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 30, 0, Math.PI * 2);
+            ctx.fill();
+            checkProgress();
+        }
+
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        window.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+        canvas.addEventListener('touchend', () => isDrawing = false);
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); });
+
+        setupCanvas();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="A virtual tribute to the 7 stranded castaways. Explore Mary Ann's Bakery, the Professor's Radio, and get your Certificate of Rescue!">
+    <meta name="keywords" content="Gilligans Island, Gilligan, Mary Anns Coconut Cream Pie, S.S. Minnow, The Skipper, The Professor, Ginger, Mr. Howell, Lovey, Castaway Tribute">
+    <meta name="author" content="Castaway Fan">
+
+    <title>Gilligan's Island Tribute | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --ginger-red: #D94F3E;
+            --palm-green: #2E8B57;
+            --white: #ffffff;
+            --ink: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('GIsland.png?q=80&w=1200') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            border-bottom: 10px solid var(--ocean-blue);
+        }
+
+        .hero h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 5rem;
+            margin: 0;
+            text-shadow: 4px 4px 0px var(--ocean-blue);
+            letter-spacing: 3px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 20px;
+            border-radius: 50px;
+        }
+
+        /* Launch Pad Grid */
+        .launch-pad {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 50px 10%;
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 4px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--ginger-red);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .card i { font-size: 4rem; margin-bottom: 15px; display: block; }
+        .card h2 { font-family: 'Bangers', cursive; font-size: 2rem; margin: 10px 0; color: var(--ocean-blue); }
+
+        /* 2. ISLAND VISITOR COUNTER STYLING */
+        .counter-area {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+            margin-bottom: 20px;
+        }
+
+        .island-icon {
+            font-size: 4rem;
+            color: #d2b48c;
+            display: block;
+            margin-bottom: -15px;
+        }
+
+        .odometer {
+            background: #222;
+            color: #fff;
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.5rem;
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 3px solid #555;
+            letter-spacing: 4px;
+            display: inline-block;
+        }
+
+        /* 3. CENTERED WHITE FOOTER */
+        footer {
+            background-color: var(--ocean-blue);
+            color: white; /* Text is now white */
+            text-align: center; /* Centered */
+            padding: 40px 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        footer p, footer .disclaimer {
+            color: white; /* Force all footer text to white */
+            max-width: 600px;
+            margin: 10px auto;
+        }
+
+        .footer-logo {
+            font-family: 'Bangers';
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .disclaimer { font-size: 0.8rem; opacity: 0.8; }
+
+        /* Wave Animation */
+        .ocean { height: 80px; width: 100%; position: relative; z-index: 1; pointer-events: none; margin-top: -80px; }
+        .wave {
+            background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+            position: absolute; top: -100px; width: 6400px; height: 198px;
+            animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite; transform: translate3d(0, 0, 0);
+        }
+        @keyframes wave { 0% { margin-left: 0; } 100% { margin-left: -1600px; } }
+
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <h1>GILLIGAN'S ISLAND</h1>
+        <p>A Virtual Tribute to the 7 Stranded Castaways</p>
+    </section>
+
+    <main class="launch-pad">
+        <a href="pie.html" class="card">
+            <i class="fas fa-utensils" style="color: #f08080;"></i>
+            <h2>Mary Ann's Bakery</h2>
+            <p>Grab a slice of famous Coconut Cream Pie!</p>
+        </a>
+        
+        <a href="bios.html" class="card">
+            <i class="fas fa-id-card" style="color: var(--ocean-blue);"></i>
+            <h2>Castaway Bios</h2>
+            <p>Meet the crew of the S.S. Minnow!</p>
+        </a>
+
+        <a href="radio.html" class="card">
+            <i class="fas fa-broadcast-tower" style="color: #555;"></i>
+            <h2>The Professor's Radio</h2>
+            <p>Tune in for news, static, and famous guest stars.</p>
+        </a>
+
+        <a href="scratch.html" class="card">
+            <i class="fas fa-map-marked-alt" style="color: #ffd700;"></i>
+            <h2>Buried Treasure</h2>
+            <p>Scratch the sand to reveal island secrets.</p>
+        </a>
+
+        <a href="puzzle.html" class="card">
+            <i class="fas fa-search" style="color: var(--palm-green);"></i>
+            <h2>Castaway Search</h2>
+            <p>Find all 12 words before the tide comes in!</p>
+        </a>
+        
+        <a href="contact.html" class="card">
+            <i class="fas fa-feather-alt" style="color: var(--ocean-blue);"></i>
+            <h2>Contact Page</h2>
+            <p>Send a Message by Carrier Pigeon</p>
+        </a>
+    
+        <a href="sounds.html" class="card">
+            <i class="fas fa-volume-up" style="color: var(--ginger-red);"></i>
+            <h2>Sound Board</h2>
+            <p>Sound Clips of all the Castaways!</p>
+        </a>
+        
+        <a href="rescue.html" class="card">
+            <i class="fas fa-first-aid" style="color: var(--gold);"></i>
+            <h2>Certificate of Rescue</h2>
+            <p>Claim your official rescue document!</p>
+        </a>
+
+        <a href="inventions.html" class="card">
+            <i class="fas fa-microscope" style="color: var(--gold);"></i>
+            <h2>The Professors Inventions</h2>
+            <p>All The Professors Scientific Solutions & Makeshift Inventions!</p>
+        </a>
+		
+		        <a href="guest.html" class="card">
+            <i class="fas fa-suitcase" style="color: var(--gold);"></i>
+            <h2>The Island Guests</h2>
+            <p>All The Island Guests Human and Non-Human</p>
+        </a>
+    </main>
+
+    <div class="counter-area">
+        <i class="fas fa-umbrella-beach island-icon"></i>
+       <script type="text/javascript" src="https://counter.websiteout.com/js/13/6/0/0"></script>
+        <p style="font-family: 'Bangers'; color: var(--ocean-blue);">Island Visitors</p>
+    </div>
+
+    <div class="ocean">
+        <div class="wave"></div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">⚓ Gilligan's Island Tribute</div>
+        <p>Thanks for visiting our little corner of the internet.</p>
+
+        <p class="disclaimer">
+            This is a fan tribute page for educational and entertainment purposes only.<br>
+            Gilligan's Island is &copy; MGM Television Entertainment Inc. All rights reserved.
+        </p>
+    </footer>
+
+
+</body>
+</html>

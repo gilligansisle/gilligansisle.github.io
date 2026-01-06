@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Rescue | Gilligan's Island</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Dancing+Script:wght@700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --gold: #D4AF37;
+            --ink: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0; /* Important: removes default spacing around the edge */
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR - Now stretches 100% */
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: white;
+            padding: 1rem 2%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box; /* Ensures padding doesn't push it off screen */
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap; /* Allows links to wrap on smaller screens */
+            justify-content: flex-end;
+        }
+
+        .nav-links a { 
+            text-decoration: none; 
+            color: white; 
+            font-weight: bold; 
+            margin-left: 15px; 
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+
+        /* CONTENT WRAPPER - Centers the certificate */
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .no-print { margin: 20px 0; text-align: center; }
+
+        .certificate {
+            width: 800px;
+            height: 550px;
+            padding: 40px;
+            background: white;
+            border: 15px double var(--gold);
+            outline: 5px solid var(--ocean-blue);
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            background-image: radial-gradient(circle, #fff9e6 0%, #ffffff 100%);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .certificate::before {
+            content: '⚓';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2.5rem;
+            color: var(--gold);
+        }
+
+        .official-seal {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 0 0 5px white, 0 0 0 8px var(--gold);
+            border: 4px dotted #B8860B;
+            transform: rotate(-10deg);
+        }
+
+        .seal-content { text-align: center; font-family: 'Bangers'; line-height: 1; }
+        .seal-content i { font-size: 2rem; }
+        .seal-content span { display: block; font-size: 0.7rem; letter-spacing: 1px; }
+
+        h1 { font-family: 'Bangers', cursive; font-size: 4rem; color: var(--ocean-blue); margin: 10px 0; }
+        h2 { font-family: 'Bangers', cursive; font-size: 2rem; color: var(--gold); margin: 0; }
+        
+        .recipient-line {
+            border-bottom: 2px solid var(--ink);
+            width: 80%;
+            margin: 40px auto 10px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--ink);
+        }
+
+        .cert-text { font-size: 1.2rem; line-height: 1.6; margin: 20px 10%; color: #333; }
+
+        .signatures {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+
+        .sig-box { width: 250px; text-align: center; }
+        .sig-name { font-family: 'Dancing Script', cursive; font-size: 1.8rem; margin-bottom: -10px; color: var(--ink); }
+        .sig-line { border-top: 1px solid var(--ink); width: 100%; margin-bottom: 5px; }
+        .sig-title { font-size: 0.9rem; text-transform: uppercase; font-weight: bold; color: #555; }
+
+        .btn-rescue {
+            background: var(--ocean-blue);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Bangers';
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px #004d6d;
+        }
+
+        @media print {
+            .navbar, .no-print { display: none !important; }
+            body { background: white; }
+            .certificate { 
+                box-shadow: none !important; 
+                border: 10px double black !important; 
+                margin: 0 auto; 
+                transform: scale(0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-first-aid"></i> Rescue Document</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="page-content">
+        <div class="no-print">
+            <h1 style="color: var(--ocean-blue);">CONGRATULATIONS!</h1>
+            <p>You've explored the island and found your way to rescue!</p>
+            <button class="btn-rescue" onclick="window.print()">
+                <i class="fas fa-print"></i> PRINT MY CERTIFICATE
+            </button>
+            <p><a href="index.html" style="color: var(--ocean-blue); font-weight: bold;">Return to the Island</a></p>
+        </div>
+
+        <div class="certificate">
+            <h2>Official S.S. Minnow Document</h2>
+            <h1>CERTIFICATE OF RESCUE</h1>
+            
+            <p class="cert-text">This document officially recognizes that</p>
+            <div class="recipient-line">Honorary Castaway</div>
+            <p class="cert-text">
+                Has successfully survived the "Three Hour Tour," found the hidden treasure, 
+                listened to the Professor's radio, and partaken in Mary Ann's pie. 
+                They are hereby cleared to leave the island and return to the mainland.
+            </p>
+
+            <div class="signatures">
+                <div class="sig-box">
+                    <div class="sig-name">Jonas Grumby</div>
+                    <div class="sig-line"></div>
+                    <div class="sig-title">The Skipper</div>
+                </div>
+
+                <div class="sig-box">
+                    <div class="sig-name">The Professor</div>
+                    <div class="sig-line"></div>
+                    <div class="sig-title">Scientific Advisor</div>
+                </div>
+            </div>
+
+            <div class="official-seal">
+                <div class="seal-content">
+                    <i class="fas fa-certificate"></i>
+                    <span>CERTIFIED<br>RESCUE</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 25px; font-size: 0.8rem; color: gray; text-align: center; width: 100%;">
+                Dated: January 2, 2026 | Location: Uncharted Desert Isle
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

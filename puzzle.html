@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Castaway Word Search | Gilligan's Island</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --ginger-red: #D94F3E;
+            --tropical-green: #228B22;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; margin-left: 20px; }
+
+        .container { padding: 30px; }
+        h1 { font-family: 'Bangers', cursive; font-size: 3.5rem; color: var(--ocean-blue); margin-bottom: 5px; }
+
+        /* Timer Style */
+        .timer-box {
+            font-family: 'Bangers', cursive;
+            font-size: 2rem;
+            color: var(--ginger-red);
+            background: white;
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 10px;
+            border: 3px solid var(--ocean-blue);
+            margin-bottom: 20px;
+        }
+
+        /* Puzzle Grid */
+        #puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 35px);
+            gap: 5px;
+            justify-content: center;
+            background: rgba(255,255,255,0.7);
+            padding: 15px;
+            border-radius: 15px;
+            border: 5px solid var(--ocean-blue);
+            margin: 0 auto;
+            width: fit-content;
+            user-select: none;
+        }
+
+        .cell {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+
+        .cell.selected { background-color: #ffe066; transform: scale(1.1); z-index: 5; }
+        .cell.found { background-color: var(--tropical-green) !important; color: white; }
+
+        /* Word List */
+        .word-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            max-width: 700px;
+            margin: 25px auto;
+        }
+
+        .word-item {
+            padding: 8px 15px;
+            background: white;
+            border-radius: 20px;
+            font-weight: bold;
+            border: 2px solid #ccc;
+        }
+
+        .word-item.crossed {
+            text-decoration: line-through;
+            background: #a8e6cf;
+            color: #1b5e20;
+            border-color: var(--tropical-green);
+        }
+
+        .btn {
+            background: var(--ginger-red);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Bangers';
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #8b3429;
+        }
+        .btn:active { transform: translateY(2px); box-shadow: none; }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-ship"></i> Island Games</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Castaway Word Search</h1>
+        <p>Find the 12 words hidden in the grid!</p>
+        
+        <div class="timer-box">
+            <i class="fas fa-stopwatch"></i> TIME: <span id="timer">00:00</span>
+        </div>
+
+        <div id="puzzle-grid"></div>
+
+        <div class="word-list" id="word-list-ui"></div>
+        
+        <button class="btn" onclick="location.reload()">RESTART PUZZLE</button>
+    </div>
+
+    <script>
+        const wordsToFind = [
+            "GILLIGAN", "SKIPPER", "PROFESSOR", "GINGER", 
+            "MARYANN", "THOWELL", "ISLAND", "COCONUT", 
+            "MINNOW", "STRANDED", "LAGOON", "RESCUE"
+        ];
+
+        let foundWords = [];
+        let selectedCells = [];
+        const gridSize = 12;
+        let seconds = 0;
+        let timerInterval;
+
+        // Start Timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                let mins = Math.floor(seconds / 60);
+                let secs = seconds % 60;
+                document.getElementById('timer').textContent = 
+                    (mins < 10 ? "0" + mins : mins) + ":" + (secs < 10 ? "0" + secs : secs);
+            }, 1000);
+        }
+
+        const grid = Array(gridSize).fill().map(() => Array(gridSize).fill(''));
+
+        function placeWords() {
+            wordsToFind.forEach(word => {
+                let placed = false;
+                while (!placed) {
+                    const isVert = Math.random() > 0.5;
+                    const row = Math.floor(Math.random() * (gridSize - (isVert ? word.length : 0)));
+                    const col = Math.floor(Math.random() * (gridSize - (isVert ? 0 : word.length)));
+                    
+                    let canPlace = true;
+                    for (let i = 0; i < word.length; i++) {
+                        let r = row + (isVert ? i : 0);
+                        let c = col + (isVert ? 0 : i);
+                        if (grid[r][c] !== '' && grid[r][c] !== word[i]) { canPlace = false; break; }
+                    }
+
+                    if (canPlace) {
+                        for (let i = 0; i < word.length; i++) {
+                            grid[row + (isVert ? i : 0)][col + (isVert ? 0 : i)] = word[i];
+                        }
+                        placed = true;
+                    }
+                }
+            });
+
+            for (let r = 0; r < gridSize; r++) {
+                for (let c = 0; c < gridSize; c++) {
+                    if (grid[r][c] === '') grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                }
+            }
+        }
+
+        function render() {
+            const gridUI = document.getElementById('puzzle-grid');
+            gridUI.innerHTML = '';
+            grid.forEach((row, r) => {
+                row.forEach((letter, c) => {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.textContent = letter;
+                    cell.dataset.r = r;
+                    cell.dataset.c = c;
+                    cell.onclick = () => handleSelect(cell);
+                    gridUI.appendChild(cell);
+                });
+            });
+
+            const listUI = document.getElementById('word-list-ui');
+            listUI.innerHTML = '';
+            wordsToFind.sort().forEach(word => {
+                const item = document.createElement('div');
+                item.className = 'word-item';
+                item.id = 'word-' + word;
+                item.textContent = word;
+                listUI.appendChild(item);
+            });
+        }
+
+        function handleSelect(cell) {
+            if (cell.classList.contains('found')) return;
+            
+            cell.classList.toggle('selected');
+            
+            let currentString = "";
+            const selected = document.querySelectorAll('.cell.selected');
+            selected.forEach(c => currentString += c.textContent);
+
+            wordsToFind.forEach(word => {
+                if (currentString === word && !foundWords.includes(word)) {
+                    foundWords.push(word);
+                    document.getElementById('word-' + word).classList.add('crossed');
+                    selected.forEach(c => {
+                        c.classList.remove('selected');
+                        c.classList.add('found');
+                    });
+                    checkWin();
+                }
+            });
+
+            // Auto-clear if selection gets too long
+            if (currentString.length > 10) {
+                selected.forEach(c => c.classList.remove('selected'));
+            }
+        }
+
+        function checkWin() {
+            if (foundWords.length === wordsToFind.length) {
+                clearInterval(timerInterval);
+                alert("CONGRATULATIONS! You found everyone in " + document.getElementById('timer').textContent + "!");
+            }
+        }
+
+        placeWords();
+        render();
+        startTimer();
+    </script>
+</body>
+</html>

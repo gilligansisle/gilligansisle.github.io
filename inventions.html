@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Professor's Workshop | Inventions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --blueprint-blue: #004a7c;
+            --sand: #f4e4bc;
+            --bamboo: #967117;
+            --palm: #2e8b57;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0;
+            padding-bottom: 50px;
+        }
+
+        /* Full-width Blue Navbar */
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: white;
+            padding: 1rem 2%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; margin-left: 15px; font-size: 0.85rem; }
+        .nav-links a:hover { color: #ffd700; }
+
+        .header-title {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        h1 { font-family: 'Bangers', cursive; color: var(--ocean-blue); font-size: 3.5rem; margin: 0; }
+
+        /* THE INVENTION SECTION */
+        .invention-container {
+            max-width: 1100px;
+            margin: 20px auto 60px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Side-by-side */
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 8px solid var(--bamboo);
+            border-radius: 15px;
+        }
+
+        /* Left Side: The Photo */
+        .invention-photo {
+            background: white;
+            padding: 15px;
+            border: 2px solid #ccc;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .invention-photo img {
+            width: 100%;
+            height: auto;
+            border-bottom: 2px solid #eee;
+        }
+
+        .caption {
+            font-family: 'Bangers';
+            padding-top: 10px;
+            color: #555;
+            font-size: 1.2rem;
+        }
+
+        /* Right Side: The Technical Blueprint */
+        .invention-blueprint {
+            background-color: var(--blueprint-blue);
+            background-image: 
+                linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+            background-size: 20px 20px; /* The Grid Effect */
+            border: 4px solid #fff;
+            padding: 25px;
+            color: white;
+            position: relative;
+            min-height: 350px;
+        }
+
+        .blueprint-title {
+            font-family: 'Courier Prime', monospace;
+            border-bottom: 2px solid white;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .spec-label {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            display: block;
+        }
+
+        /* Fun Elements */
+        .materials-tag {
+            background: var(--palm);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+
+        @media (max-width: 800px) {
+            .invention-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-microscope"></i> Professor's Lab</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="header-title">
+        <h1>Professor's Island Inventions</h1>
+        <p>Proving that with enough bamboo and coconuts, anything is possible!</p>
+    </div>
+
+    <div class="invention-container">
+        <div class="invention-photo">
+            <img src="car.jpg" alt="The Bamboo Car">
+            <div class="caption">The Island Taxi</div>
+        </div>
+        <div class="invention-blueprint">
+            <div class="blueprint-title">Project: Ground Transport V.1</div>
+            <span class="spec-label">** CHASSIS: Reinforced Bamboo Stalks</span>
+            <span class="spec-label">** WHEELS: Hand-Carved Sandstone</span>
+            <span class="spec-label">** POWER: 2-Gilligan Footpower (Mechanical)</span>
+            <span class="spec-label">** BRAKES: Coconut Shell Friction System</span>
+            <hr>
+            <p><strong>Notes:</strong> Provides excellent mileage, though the passenger comfort is low. Avoid steep hills or angry gorillas.</p>
+            <div style="margin-top:20px;">
+                <span class="materials-tag">Bamboo</span>
+                <span class="materials-tag">Vine Rope</span>
+                <span class="materials-tag">Sea Shells</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="invention-container">
+        <div class="invention-photo">
+            <img src="sewing.jpg" alt="Island Sewing Machine">
+            <div class="caption">Manual Stitcher</div>
+        </div>
+        <div class="invention-blueprint">
+            <div class="blueprint-title">Project: Textile Fabrication</div>
+            <span class="spec-label">** NEEDLE: Sharpened Swordfish Bill</span>
+            <span class="spec-label">** THREAD: Pineapple Leaf Fibers</span>
+            <span class="spec-label">** DRIVE: Pedal-Operated Bamboo Crank</span>
+            <hr>
+            <p><strong>Notes:</strong> Vital for Ginger's gowns. Keep away from saltwater to prevent needle rust.</p>
+            <div style="margin-top:20px;">
+                <span class="materials-tag">Palm Fronds</span>
+                <span class="materials-tag">Fish Bone</span>
+            </div>
+        </div>
+    </div>
+	
+	    <div class="invention-container">
+        <div class="invention-photo">
+            <img src="telegraph.jpg" alt="Island Telegraph">
+            <div class="caption">Communication To The Outside World</div>
+        </div>
+        <div class="invention-blueprint">
+            <div class="blueprint-title">Project: The Dot & Dash Dispatch</div>
+            <span class="spec-label">** STRUCTURE: Reinforced Bamboo Stalks</span>
+            <span class="spec-label">** WHEELS: Hand-Carved Sandstone</span>
+            <span class="spec-label">** POWER: Pedal Footpower Of 3 Castaways</span>
+		    <span class="spec-label">** CONNECTIONS: A Motor From The Minnow With Wires To Connect To The Radio</span>
+            <hr>
+            <p><strong>Notes:</strong> Vital for contact to planes and ships In the area</p>
+            <div style="margin-top:20px;">
+                <span class="materials-tag">Bamboo</span>
+				<span class="materials-tag">Vine Rope</span>
+                <span class="materials-tag">Salvaged Motor</span>
+            </div>
+        </div>
+    </div>
+
+
+	    <div class="invention-container">
+        <div class="invention-photo">
+            <img src="lie.jpg" alt="Island Lie Detector">
+            <div class="caption">Who Is In Love With Lovey</div>
+        </div>
+        <div class="invention-blueprint">
+            <div class="blueprint-title">Project: The "Uh-Oh" Machine</div>
+            <span class="spec-label">** STRUCTURE: Reinforced Bamboo</span>
+            <span class="spec-label">** LIGHTS: Port & Starboard Lights From The Minnow</span>
+            <span class="spec-label">** POWER: Radio Batteries</span>
+		    <span class="spec-label">** CONNECTIONS: The Ship's Horn From The Minnow</span>
+            <hr>
+            <p><strong>Notes:</strong> To find out who is sending Lovey love letters</p>
+            <div style="margin-top:20px;">
+                <span class="materials-tag">Bamboo</span>
+				<span class="materials-tag">Ship's Horn</span>
+                <span class="materials-tag">Coconuts</span>
+                <span class="materials-tag">Radio Batteries</span>
+				
+            </div>
+        </div>
+    </div>
+	
+	    <div class="invention-container">
+        <div class="invention-photo">
+            <img src="washing.jpg" alt="The Washing Machine">
+            <div class="caption">The Island Washing Machine</div>
+        </div>
+        <div class="invention-blueprint">
+            <div class="blueprint-title">Project: Grit & Grime Cleaners</div>
+            <span class="spec-label">** CHASSIS: Reinforced Bamboo Stalks</span>
+            <span class="spec-label">** WHEEL: Sandstone To Connect The Pedals</span>
+            <span class="spec-label">** DRIVE: Pedal-Operated Bamboo Crank</span>
+            <span class="spec-label">** DRUM: Metal Drum That Washed Up On Shore</span>
+            <hr>
+            <p><strong>Notes:</strong> Provides excellent cleaning of the Castways clothes providing somebody wants to pedal </p>
+            <div style="margin-top:20px;">
+                <span class="materials-tag">Bamboo</span>
+                <span class="materials-tag">Metal Drum</span>
+                <span class="materials-tag">Drive Belt</span>
+            </div>
+        </div>
+    </div>
+		    <div class="invention-container">
+        <div class="invention-photo">
+            <img src="jetfuel.jpg" alt="Jet Fuel">
+            <div class="caption">Jet Fuel</div>
+        </div>
+        <div class="invention-blueprint">
+            <div class="blueprint-title">Project: Sky-High-Octane</div>
+            <span class="spec-label">** INGREDIENT#1: Sulfuric Acid From Crystallized Copper Found In Caves</span>
+            <span class="spec-label">** INGREDIENT#2: Glycerol From Papaya Seeds</span>
+            <span class="spec-label">** INGREDIENT#3: Potassium Nitrate From Rocks In The Lagoon</span>
+            <span class="spec-label">** INGREDIENT#4: The Professor Is Keeping The Rest A Secret</span>
+            <hr>
+            <p><strong>Notes:</strong> Fuel for the jet pack. Just so Gilligan can hide in a cloud so the Navy can't see him. </p>
+            <div style="margin-top:20px;">
+                <span class="materials-tag">Copper</span>
+                <span class="materials-tag">Papaya</span>
+                <span class="materials-tag">Rocks</span>
+            </div>
+        </div>
+    </div>
+			    <div class="invention-container">
+        <div class="invention-photo">
+            <img src="ballon.jpg" alt="Ballon">
+            <div class="caption">Hot Air Ballon</div>
+        </div>
+        <div class="invention-blueprint">
+            <div class="blueprint-title">Project: Cloud Cruiser</div>
+            <span class="spec-label">** CHASSIS: Reinforced Bamboo Stalks</span>
+            <span class="spec-label">** STRUCTURE: Raincoats</span>
+            <span class="spec-label">** BONDING AGENT: Tree Sap</span>
+            <span class="spec-label">** POWER: Helium Found On The Island By Jungle Boy</span>
+            <hr>
+            <p><strong>Notes:</strong> Jungle Boy hitching a ride on the biggest, silentest, most comfortable Jungle Bird you've ever seen. Eating cloud-berries & air-bananas </p>
+            <div style="margin-top:20px;">
+                <span class="materials-tag">Raincoats</span>
+                <span class="materials-tag">Tree Sap</span>
+                <span class="materials-tag">Helium</span>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center; margin-bottom: 50px;">
+        <a href="index.html" style="font-family: 'Bangers'; color: var(--ocean-blue); text-decoration: none; font-size: 1.5rem;">
+		
+		<style>
+        .materials-inventory {
+            max-width: 1100px;
+            margin: 0 auto 50px auto;
+            background: #fff;
+            border: 5px solid var(--bamboo);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .inventory-item {
+            background: var(--sand);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid var(--palm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .inventory-item i {
+            color: var(--bamboo);
+            font-size: 1.2rem;
+        }
+
+        .inventory-item strong {
+            display: block;
+            color: var(--ocean-blue);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+    </style>
+
+    <div class="materials-inventory">
+        <h2 style="font-family: 'Bangers'; color: var(--ocean-blue); text-align: center; font-size: 2.5rem; margin-top: 0;">
+            <i class="fas fa-clipboard-list"></i> Professor's Lab Inventory
+        </h2>
+        <p style="text-align: center; color: #666; font-style: italic;">"Standard materials for transmuting island flora into functional technology."</p>
+        
+        <div class="inventory-grid">
+            <div class="inventory-item">
+                <i class="fas fa-seedling"></i>
+                <div>
+                    <strong>Binding Agents</strong>
+                    Vine Rope & Sap
+                </div>
+            </div>
+            <div class="inventory-item">
+                <i class="fas fa-flask"></i>
+                <div>
+                    <strong>Chemicals</strong>
+                    Volcanic Ash & Berry Juice
+                </div>
+            </div>
+            <div class="inventory-item">
+                <i class="fas fa-cog"></i>
+                <div>
+                    <strong>Gears</strong>
+                    Bamboo & Coconut Shells
+                </div>
+            </div>
+            <div class="inventory-item">
+                <i class="fas fa-bolt"></i>
+                <div>
+                    <strong>Energy</strong>
+                    Static & Lightning Rods
+                </div>
+            </div>
+            <div class="inventory-item">
+                <i class="fas fa-fish"></i>
+                <div>
+                    <strong>Precision Tools</strong>
+                    Shark Teeth & Fish Bone
+                </div>
+            </div>
+            <div class="inventory-item">
+                <i class="fas fa-leaf"></i>
+                <div>
+                    <strong>Insulation</strong>
+                    Dried Palm Fronds
+                </div>
+            </div>
+			<div class="inventory-item">
+                <i class="fas fa-tree"></i>
+                <div>
+                    <strong>Structures</strong>
+                    Reinforced Bamboo Stalks
+                </div>
+            </div>
+			<div class="inventory-item">
+                <i class="fas fa-gear"></i>
+                <div>
+                    <strong>Wheels</strong>
+                    Hand-Carved Sandstone
+                </div>
+            </div>
+			<div class="inventory-item">
+                <i class="fas fa-leaf"></i>
+                <div>
+                    <strong>Potions</strong>
+                    Fruits & Wild Plants
+                </div>
+            </div>
+				<div class="inventory-item">
+                <i class="fas fa-ship"></i>
+                <div>
+                    <strong>Spare Parts</strong>
+                    From The Minnow
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<style>
+        .tools-section {
+            max-width: 1100px;
+            margin: 0 auto 50px auto;
+            padding: 20px;
+            background: #e9dcc0; /* Slightly darker sand for a workshop floor look */
+            border: 4px dashed var(--bamboo);
+            border-radius: 10px;
+        }
+
+        .tool-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tool-card i {
+            font-size: 2rem;
+            color: var(--ocean-blue);
+            margin-bottom: 10px;
+        }
+
+        .tool-card h4 {
+            margin: 5px 0;
+            font-family: 'Bangers';
+            letter-spacing: 1px;
+        }
+    </style>
+
+    <div class="tools-section">
+        <h2 style="font-family: 'Bangers'; color: var(--bamboo); text-align: center;">Tools of the Trade</h2>
+        <div class="tool-list">
+            <div class="tool-card">
+                <i class="fas fa-hammer"></i>
+                <h4>Stone Hammer</h4>
+                <p style="font-size: 0.8rem;">For heavy-duty bamboo construction.</p>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-compass"></i>
+                <h4>Shell Compass</h4>
+                <p style="font-size: 0.8rem;">Magnetized needle in a coconut bowl.</p>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-ruler-combined"></i>
+                <h4>Vine Tape</h4>
+                <p style="font-size: 0.8rem;">Calibrated for precise tropical measurements.</p>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-fire"></i>
+                <h4>Sun Lens</h4>
+                <p style="font-size: 0.8rem;">Magnified glass for precision welding.</p>
+            </div>
+			        <div class="tool-card">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h4>Chemistry Degree</h4>
+                <p style="font-size: 0.8rem;">For making antidotes & anesthetics</p>
+            </div>
+			        <div class="tool-card">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h4>Engineering Degree</h4>
+                <p style="font-size: 0.8rem;">For building all those contraptions</p>
+            </div>
+        </div>
+    </div>
+
+            ← Back to the Lagoon
+        </a>
+    </div>
+
+</body>
+</html>

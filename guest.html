@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Island Guests | Gilligan's Island</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --ginger-red: #D94F3E;
+            --palm-green: #2E8B57;
+            --radio-black: #333;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; margin-left: 15px; font-size: 0.9rem; }
+        .nav-links a:hover { color: #ffd700; }
+
+        .container { padding: 20px 5%; }
+
+        /* RADIO ALERT BOX */
+        .radio-alert {
+            background: var(--radio-black);
+            color: #00ff00; /* Classic radio green */
+            font-family: 'Courier Prime', monospace;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 4px solid #555;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .live-light {
+            width: 12px;
+            height: 12px;
+            background-color: red;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        h1 { font-family: 'Bangers', cursive; font-size: 3.5rem; color: var(--ocean-blue); margin-top: 20px; }
+
+        /* Guest Grid */
+        .guest-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .guest-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-bottom: 5px solid var(--palm-green);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .guest-card:hover { transform: translateY(-5px); }
+
+        .guest-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #eee;
+        }
+
+        .guest-info { padding: 15px; flex-grow: 1; }
+        .guest-info h2 { font-family: 'Bangers', cursive; color: var(--ginger-red); margin: 0; font-size: 1.6rem; }
+        .guest-info h4 { color: var(--ocean-blue); margin: 5px 0 10px 0; font-size: 0.9rem; text-transform: uppercase; }
+        .guest-info p { line-height: 1.4; color: #444; font-size: 0.95rem; margin: 0; }
+
+        .footer-waves {
+            margin-top: 50px;
+            padding: 20px;
+            background: var(--ocean-blue);
+            color: white;
+            font-family: 'Bangers';
+        }
+
+        @media (max-width: 1100px) { .guest-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .guest-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-suitcase"></i> Island Registry</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+<div class="radio-alert">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="live-light"></div>
+            <span id="radio-text"><strong>BCC RADIO:</strong> UNIDENTIFIED VISITOR SPOTTED NEAR THE LAGOON! STAY ALERT!</span>
+        </div>
+        <button class="btn-tune" onclick="tuneRadio()">
+            <i class="fas fa-broadcast-tower"></i> TUNE
+        </button>
+    </div>
+
+    <style>
+        .btn-tune {
+            background: #444;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px 15px;
+            font-family: 'Courier Prime', monospace;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+        .btn-tune:hover {
+            background: #00ff00;
+            color: #000;
+        }
+    </style>
+
+    <script>
+        let newsIndex = 0;
+        const updates = [
+            "<strong>BCC RADIO:</strong> UNIDENTIFIED VISITOR SPOTTED NEAR THE LAGOON! STAY ALERT!",
+            "<strong>WEATHER:</strong> TROPICAL STORM APPROACHING. SECURE ALL BAMBOO STRUCTURES.",
+            "<strong>NEWS:</strong> THE MOSQUITOS RECORD LATEST HIT 'HE'S A GONE GOOSE'!",
+            "<strong>URGENT:</strong> GILLIGAN HAS DISCOVERED A VOLCANO. EVACUATION DRILL IMMINENT.",
+            "<strong>LOST & FOUND:</strong> MISSING: ONE WHITE NAVY CAP. LAST SEEN NEAR THE HAMMOCKS.",
+            "<strong>ADVISORY:</strong> AVOID THE WEST CAVE. RUMORS OF THE 'EYE OF THE IDOL' PERSIST."
+        ];
+
+        function tuneRadio() {
+            newsIndex = (newsIndex + 1) % updates.length;
+            const radioText = document.getElementById('radio-text');
+            
+            // Add a little "static" flicker effect when tuning
+            radioText.style.opacity = 0.3;
+            setTimeout(() => {
+                radioText.innerHTML = updates[newsIndex];
+                radioText.style.opacity = 1;
+            }, 150);
+        }
+    </script>
+
+    <div class="container">
+        <h1>NOTABLE VISITORS</h1>
+        <p style="margin-bottom: 40px; font-style: italic;">"Wait... they left without us AGAIN?"</p>
+        
+        <div class="guest-grid">
+            <div class="guest-card">
+                <img src="Feldman.jpg" alt="Wrong Way Feldman">
+                <div class="guest-info">
+                    <h2>Wrong Way Feldman</h2>
+                    <h4>The WWI Aviator</h4>
+                    <p>The legendary pilot who always flies in the wrong direction. He managed to leave the island twice!</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="jungleboy.jpg" alt="Jungle Boy">
+                <div class="guest-info">
+                    <h2>The Jungle Boy</h2>
+                    <h4>Native Resident</h4>
+                    <p>A wild young boy who was discovered living in the trees. He taught Gilligan a thing or two about vines.</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="Cosmonauts.jpg" alt="Cosmonauts">
+                <div class="guest-info">
+                    <h2>The Cosmonauts</h2>
+                    <h4>Soviet Explorers</h4>
+                    <p>Two space explorers who crashed in the lagoon. They were more interested in space than a rescue mission.</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="Boris.jpg" alt="Boris Balinkoff">
+                <div class="guest-info">
+                    <h2>Dr. Boris Balinkoff</h2>
+                    <h4>The Mad Scientist</h4>
+                    <p>Lived on a nearby island and used the castaways for his bizarre mind-switching experiments.</p>
+                </div>
+            </div>
+
+           <div class="guest-card">
+                <img src="Hecuba.jpg" alt="Harold Hecuba">
+                <div class="guest-info">
+                    <h2>Harold Hecuba</h2>
+                    <h4>The Director</h4>
+                    <p>A high-strung Broadway producer who staged a musical version of "Hamlet" with the castaways before sneaking off in the night.</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="Beasley.jpg" alt="Lord Beasley Waterfall">
+                <div class="guest-info">
+                    <h2>Lord Beasley</h2>
+                    <h4>Butterfly Collector</h4>
+                    <p>A posh explorer searching for the rare Pussycat Swallowtail. He escaped via a flare gun, accidentally leaving the crew behind!</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="mosquitoes.jpg" alt="The Mosquitos">
+                <div class="guest-info">
+                    <h2>The Mosquitoes</h2>
+                    <h4>The Rock Band</h4>
+                    <p>Bingo, Bango, Bongo, and Irving. They came to the island for "peace and quiet" but couldn't handle the castaways' fan-girling.</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="erikasmith.jpg" alt="Erika Tiffany-Smith">
+                <div class="guest-info">
+                    <h2>Erika Tiffany-Smith</h2>
+                    <h4>The Socialite</h4>
+                    <p>A wealthy woman looking to buy the island for a resort. She fell for the Skipper, but her yacht sailed away without the crew.</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="kincaid.jpg" alt="Jonathan Kincaid">
+                <div class="guest-info">
+                    <h2>Jonathan Kincaid</h2>
+                    <h4>The Hunter</h4>
+                    <p>The world's greatest big-game hunter who decided that hunting animals was too easy—so he tried to hunt Gilligan instead!</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="dukewilliams.jpg" alt="Duke Williams">
+                <div class="guest-info">
+                    <h2>Duke Williams</h2>
+                    <h4>The Surfer</h4>
+                    <p>A big-wave surfer who rode a massive tsunami all the way to the island. He eventually surfed his way back to Hawaii!</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="sailor.jpg" alt="Japanese Sailor">
+                <div class="guest-info">
+                    <h2>The Sailor</h2>
+                    <h4>The Lost Soldier</h4>
+                    <p>A soldier who didn't know WWII was over. He lived in a miniature submarine in the lagoon and "captured" the castaways.</p>
+                </div>
+            </div>
+
+            <div class="guest-card">
+                <img src="evagrubb.jpg" alt="Eva Grubb">
+                <div class="guest-info">
+                    <h2>Eva Grubb</h2>
+                    <h4>Ginger's Double</h4>
+                    <p>A plain-looking woman who was a dead ringer for Ginger Grant. She came to the island to hide from a jealous boyfriend.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer-waves">
+        "No phones, no lights, no motor cars, not a single luxury..."
+    </footer>
+
+</body>
+</html>

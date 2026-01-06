@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Professor's Radio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Courier+Prime&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --gold: #D4AF37;
+            --ink: #1a1a1a;
+        }
+
+        body { 
+            background-color: var(--sand); 
+            font-family: 'Roboto Condensed', sans-serif; 
+            margin: 0; /* Important: removes the white gap around the blue bar */
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR - Now stretches 100% across */
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: white;
+            padding: 1rem 2%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a { 
+            text-decoration: none; 
+            color: white; 
+            font-weight: bold; 
+            margin-left: 15px; 
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+
+        /* PAGE CONTENT - This centers the radio without affecting the navbar */
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .radio-container { 
+            max-width: 650px; 
+            width: 100%;
+            margin: 30px auto; 
+            background: #b58d5a; 
+            padding: 40px; 
+            border-radius: 80px; 
+            border: 12px solid #8b5a2b;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .screen { 
+            background: #fdf5e6; 
+            padding: 25px; 
+            border-radius: 30px; 
+            min-height: 350px; 
+            border: 5px inset #8b5a2b;
+        }
+
+        .tuner { 
+            background: #1a1a1a; 
+            color: #33ff33; 
+            font-family: 'Courier Prime', monospace; 
+            padding: 12px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px #00ff00;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        h2 { font-family: 'Bangers', cursive; text-align: center; color: #333; font-size: 2.2rem; margin-top: 0; }
+        .content-section { margin-bottom: 20px; text-align: left; }
+        h3 { border-bottom: 2px solid #b58d5a; padding-bottom: 5px; font-family: 'Bangers'; color: #8b5a2b; }
+
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 25px;
+        }
+
+        .knob {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #666, #222);
+            border-radius: 50%;
+            border: 4px solid #444;
+            position: relative;
+        }
+
+        .knob::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            width: 4px;
+            height: 15px;
+            background: white;
+            transform: translateX(-50%);
+        }
+
+        .speaker-grille {
+            height: 40px;
+            background-image: radial-gradient(#333 20%, transparent 20%);
+            background-size: 10px 10px;
+            margin-top: 20px;
+            opacity: 0.3;
+        }
+
+        .return-link {
+            display: block; 
+            text-align: center; 
+            color: #8b5a2b; 
+            margin-top: 20px; 
+            font-weight: bold;
+            text-decoration: none;
+            font-family: 'Bangers';
+            font-size: 1.5rem;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-broadcast-tower"></i> The Professor's Radio</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="page-content">
+        <div class="radio-container">
+            <div class="tuner">
+                <span style="animation: blink 1s infinite;">●</span> TUNING... 1260 AM | W-ISLAND
+            </div>
+
+            <div class="screen">
+                <h2>Professor's Radio Log</h2>
+                
+                <div class="content-section">
+                    <h3>Island Guest Stars:</h3>
+                    <ul>
+                        <li><strong>The Mosquitoes:</strong> The rock band that shook the lagoon!</li>
+                        <li><strong>Wrong Way Feldman:</strong> The pilot who never found his way.</li>
+                        <li><strong>The Gorilla:</strong> A recurring jungle resident.</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h3>Essential Episodes:</h3>
+                    <p><em>"The Sound of Quacking"</em> - Sheriff Gilligan's dream.</p>
+                    <p><em>"And Then There Were None"</em> - A classic island mystery.</p>
+                </div>
+
+                <div class="speaker-grille"></div>
+            </div>
+
+            <div class="controls">
+                <div class="knob"></div>
+                <div style="font-family: 'Bangers'; color: white; padding-top: 20px;">VOLUME</div>
+                <div class="knob"></div>
+            </div>
+        </div>
+        
+        <a href="index.html" class="return-link">← Return to Shore</a>
+    </div>
+
+</body>
+</html>

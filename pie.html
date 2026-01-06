@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mary Ann's Bakery | Coconut Cream Pie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ocean-blue: #006994;
+            --sand: #f4e4bc;
+            --pie-crust: #C58917;
+            --cream: #FFFDD0;
+            --ginger-red: #D94F3E;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--sand);
+            margin: 0;
+            padding-bottom: 50px;
+        }
+
+        .navbar {
+            background-color: var(--ocean-blue);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a { text-decoration: none; color: white; font-weight: bold; margin-left: 20px; }
+
+        /* Updated Container to Flexbox for side-by-side layout */
+        .container { 
+            max-width: 1200px; 
+            margin: 40px auto; 
+            padding: 20px;
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            flex-wrap: wrap; /* Stacks vertically on small screens */
+        }
+
+        /* Fun Recipe Side (Left) */
+        .fun-recipe-side {
+            flex: 1;
+            min-width: 350px;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border: 1px solid #ddd;
+            transform: rotate(-2deg); /* Added a slight tilt for character */
+        }
+
+        .fun-recipe-side img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .label-text {
+            font-family: 'Bangers', cursive;
+            text-align: center;
+            color: var(--ginger-red);
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        /* Recipe Card Styling (Right) */
+        .recipe-card {
+            flex: 1.2;
+            background: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 15px solid var(--pie-crust);
+            text-align: left;
+            position: relative;
+        }
+
+        .recipe-header {
+            border-bottom: 2px dashed var(--pie-crust);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { font-family: 'Bangers', cursive; color: var(--ocean-blue); font-size: 3rem; margin: 0; }
+        h2 { font-family: 'Bangers', cursive; color: var(--ginger-red); border-bottom: 2px solid var(--sand); display: inline-block; }
+
+        .ingredients-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .ingredients-list li::before {
+            content: '🥥';
+            margin-right: 10px;
+        }
+
+        .instructions {
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .btn-print {
+            background: var(--ocean-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Bangers';
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .btn-print:hover { background: #004d6d; }
+
+        @media print {
+            .navbar, .btn-print, .fun-recipe-side { display: none; }
+            body { background: white; }
+            .recipe-card { box-shadow: none; border: 1px solid #ccc; flex: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-utensils"></i> Island Bakery</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+            <a href="guest.html">Island Guests</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <div class="fun-recipe-side">
+            <img src="funpie.jpg" alt="Fun Island Recipe Card">
+            <div class="label-text">Island Style!</div>
+        </div>
+
+        <div class="recipe-card">
+            <div class="recipe-header">
+                <h1>Mary Ann's Coconut Pie</h1>
+                <i class="fas fa-star" style="color: gold; font-size: 1.5rem;"></i>
+            </div>
+
+            <p><em>"A taste of home, even when you're three thousand miles away from Kansas!"</em></p>
+
+            <h2>Ingredients</h2>
+            <ul class="ingredients-list">
+                <li>1 (9-inch) Pie Crust, Baked</li>
+                <li>3 Egg Yolks, Beaten</li>
+                <li>Dash Of Salt</li>
+                <li>3/4 Cup Sugar</li>
+                <li>3 Cups Whole Milk</li>
+                <li>2 Tablespoons Butter</li>
+                <li>1/2 Cup Cornstarch</li>
+                <li>1 Cup Coconut</li>
+                <li>1/2 Teaspoon Vanilla Extract</li>
+                <li>3 Egg Whites</li>
+                <li> Coconut For Garnish</li>
+                <li>Meringue for topping Preferably</li>
+                <li>But Whipped cream Will Do Also</li>
+            </ul>
+<h2>Instructions</h2>
+            <div class="instructions">
+                <ol>
+                     <li>Preheat the oven to 375 Degrees</li>
+                    <li>In the top of the double boiler when the water begins to simmer over medium heat 275ᵒF, beat the egg yolks and salt until frothy.</li>
+                    <li>Add the sugar, milk, and butter. Mix well.</li>
+                    <li>When the bottom pan begins to boil whisk in the cornstarch with a water (a tablespoon at a time).</li>
+                    <li>Cook until thick, whisking constantly. </li>
+                    <li>Add the coconut and vanilla and mix well. Pour the filling into the baked pie shell and set aside. Cool for at least 1 hour</li>
+                    <li>In the mixing bowl, beat the egg white (adding a small amount of cream of tartar (1/4 teaspoon and 6 tablespoons of sugar at a time) to stiff peaks.</li>
+                    <li>Spread meringue over pie. Garnish with coconut. Bake for 8 - 10 minutes until lightly browned.</li>
+                    <li>Top with whipped cream instead if you want to and extra toasted coconut before serving to the Skipper!</li>
+                </ol>
+            </div>
+
+
+            <button class="btn-print" onclick="window.print()">
+                <i class="fas fa-print"></i> Print This Recipe
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
