@@ -200,287 +200,367 @@
         </div>
     </div>
 
-    <audio id="winSound" src="drums.mp3"></audio>
+<audio id="winSound" src="drums.mp3" preload="auto"></audio>
 
     <script>
-const wordPool = [
-            { a: "GILLIGAN", c: "The bumbling First Mate" },
-            { a: "SKIPPER", c: "Jonas Grumby's nickname" },
-            { a: "PROFESSOR", c: "Roy Hinkley's title" },
-            { a: "GINGER", c: "The Movie Star" },
-            { a: "MARYANN", c: "The farm girl from Kansas" },
-            { a: "HOWELL", c: "The Millionaire's last name" },
-            { a: "MINNOW", c: "The tiny ship" },
-            { a: "COCONUT", c: "Professor uses these for batteries" },
-            { a: "BAMBOO", c: "Main building material on island" },
-            { a: "LAGOON", c: "Where the ship ran aground" },
-            { a: "RADIO", c: "Their only link to civilization" },
-            { a: "PIE", c: "Mary Ann's famous dessert" },
-            { a: "HAMMOCK", c: "Island bed" },
-            { a: "RESCUE", c: "The goal of every episode" },
-            { a: "ISLAND", c: "Uncharted home" },
-            { a: "MONKEY", c: "Common jungle animal" },
-            { a: "BANANA", c: "Yellow tropical fruit" },
-            { a: "HUT", c: "Type of dwelling built" },
-            { a: "JUNGLE", c: "Dense island forest" },
-            { a: "BEACH", c: "Where they search for help" },
-            { a: "CAPTAIN", c: "The Skipper's formal rank" },
-            { a: "LOVE", c: "The Millionaire's wife, ___y" },
-            { a: "CASTAWAY", c: "General term for the group" },
-            { a: "VOYAGE", c: "A three hour ___" },
-            { a: "SMILE", c: "Ginger's best feature" },
-            { a: "CAVE", c: "Where they hide from storms" },
-            { a: "FLARE", c: "Used for signaling ships" },
-            { a: "KANSAS", c: "Where Mary Ann is from" },
-            { a: "GRUMBY", c: "The Skipper's actual last name" },
-            { a: "WHITE", c: "The color of Gilligan's iconic hat" },
-            { a: "TURTLE", c: "Slow-moving island animal" },
-            { a: "BERRIES", c: "Professor warned never to eat the blue ones" },
-            { a: "SOPRANO", c: "Ginger's singing range" },
-            { a: "POISON", c: "The type of ivy Gilligan always finds" },
-            { a: "MATCHES", c: "Professor makes these from sulfur" },
-            { a: "MOSQUITO", c: "Stinging insect on the island" },
-            { a: "FISHING", c: "Main way they get protein" },
-            { a: "FLASHLIGHT", c: "Tool that always runs out of juice" },
-            { a: "SUPPLY", c: "What they hunt for in washed up crates" },
-            { a: "ANCHOR", c: "Heavy metal object that failed the ship" },
-            { a: "STORM", c: "What tossed the ship on its voyage" },
-            { a: "BASKET", c: "What Mary Ann uses for fruit" },
-            { a: "HAMLET", c: "Musical staged by Harold Hecuba" },
-            { a: "DREAMS", c: "Episodes where Gilligan is a king or spy" },
-            { a: "ALOHA", c: "A tropical greeting" }
-        ];
-         
+function checkWin() {
+        // Updated to look for '#grid' instead of '#crossword-grid'
+        const allInputs = document.querySelectorAll('#grid input');
+        
+        if (allInputs.length === 0) return;
 
+        const allCorrect = Array.from(allInputs).every(input => 
+            input.value.toUpperCase() === input.dataset.answer
+        );
 
-const SIZE = 18; // Increased size to give words more room
-let currentPlacement = [];
-let typingDirection = 'across';
-
-function generateNewPuzzle() {
-    // Clear the grid and the placement tracker
-    const grid = Array(SIZE).fill(0).map(() => Array(SIZE).fill(''));
-    currentPlacement = [];
-    
-    // Shuffle the expanded pool
-    const shuffled = [...wordPool].sort(() => 0.5 - Math.random());
-    
-    shuffled.forEach(wordObj => {
-        if (currentPlacement.length === 0) {
-            // Start the first word closer to the center of the 18x18 grid
-            placeWord(grid, wordObj, 8, 4, 'across');
-        } else {
-            tryToFit(grid, wordObj);
+        if (allCorrect) {
+            playWinEffects();
         }
-    });
-    renderGrid(grid);
-}
+    }
 
-        function tryToFit(grid, wordObj) {
-            const word = wordObj.a;
-            for (let i = 0; i < word.length; i++) {
-                for (let placed of currentPlacement) {
-                    for (let j = 0; j < placed.answer.length; j++) {
-                        if (word[i] === placed.answer[j]) {
-                            const dir = placed.dir === 'across' ? 'down' : 'across';
-                            const r = dir === 'down' ? placed.row - i : placed.row + j;
-                            const c = dir === 'down' ? placed.col + j : placed.col - i;
-                            if (canPlace(grid, word, r, c, dir)) {
-                                placeWord(grid, wordObj, r, c, dir);
-                                return;
-                            }
+    function playWinEffects() {
+        // 1. Play the Island Drums
+        const audio = document.getElementById('winSound');
+        if (audio) {
+            audio.currentTime = 0; 
+            // Added the missing ) at the end of the line below
+            audio.play().catch(e => console.log("Audio playback blocked.")); 
+    }
+       
+
+        // 2. Trigger Confetti
+        triggerConfetti();
+
+        // 3. The Grand Finale: Redirect to the Rescue Page
+        // We wait 1.5 seconds so they can see the confetti before they leave the page!
+        setTimeout(() => {
+            if (confirm("🏝️ THE PROFESSOR IS IMPRESSED! 🏝️\nYou've been rescued! Would you like to collect your Certificate of Rescue?")) {
+                window.location.href = "rescue.html";
+            }
+        }, 1500);
+    }
+
+    function triggerConfetti() {
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            // Added pointer-events so they don't block clicking
+            confetti.style.pointerEvents = 'none'; 
+            confetti.style.backgroundColor = ['#f4e4bc', '#006994', '#2E8B57', '#D94F3E', '#ffd700'][Math.floor(Math.random() * 5)];
+            confetti.style.top = '-10px';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.zIndex = '10001'; // Higher than your navbar
+            document.body.appendChild(confetti);
+
+            const fallDuration = Math.random() * 3 + 2;
+            confetti.animate([
+                { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+                { transform: `translateY(110vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+            ], {
+                duration: fallDuration * 1000,
+                easing: 'linear'
+            });
+
+            setTimeout(() => confetti.remove(), fallDuration * 1000);
+        }
+    }
+
+    function revealAnswers() {
+        // Updated to look for '#grid'
+        document.querySelectorAll('#grid input').forEach(input => {
+            input.value = input.dataset.answer;
+            input.parentElement.classList.add('correct');
+        });
+        playWinEffects();
+    }
+    </script>
+	
+
+<script>
+    /* --- 1. CORE VARIABLES --- */
+    const wordPool = [
+        { a: "GILLIGAN", c: "The bumbling First Mate" },
+        { a: "SKIPPER", c: "Jonas Grumby's nickname" },
+        { a: "PROFESSOR", c: "Roy Hinkley's title" },
+        { a: "GINGER", c: "The Movie Star" },
+        { a: "MARYANN", c: "The farm girl from Kansas" },
+        { a: "HOWELL", c: "The Millionaire's last name" },
+        { a: "MINNOW", c: "The tiny ship" },
+        { a: "COCONUT", c: "Professor uses these for batteries" },
+        { a: "BAMBOO", c: "Main building material on island" },
+        { a: "LAGOON", c: "Where the ship ran aground" },
+        { a: "RADIO", c: "Their only link to civilization" },
+        { a: "PIE", c: "Mary Ann's famous dessert" },
+        { a: "HAMMOCK", c: "Island bed" },
+        { a: "RESCUE", c: "The goal of every episode" },
+        { a: "ISLAND", c: "Uncharted home" },
+        { a: "MONKEY", c: "Common jungle animal" },
+        { a: "BANANA", c: "Yellow tropical fruit" },
+        { a: "HUT", c: "Type of dwelling built" },
+        { a: "JUNGLE", c: "Dense island forest" },
+        { a: "BEACH", c: "Where they search for help" },
+        { a: "CAPTAIN", c: "The Skipper's formal rank" },
+        { a: "LOVE", c: "The Millionaire's wife, ___y" },
+        { a: "CASTAWAY", c: "General term for the group" },
+        { a: "VOYAGE", c: "A three hour ___" },
+        { a: "SMILE", c: "Ginger's best feature" },
+        { a: "CAVE", c: "Where they hide from storms" },
+        { a: "FLARE", c: "Used for signaling ships" },
+        { a: "KANSAS", c: "Where Mary Ann is from" },
+        { a: "GRUMBY", c: "The Skipper's actual last name" },
+        { a: "WHITE", c: "The color of Gilligan's iconic hat" },
+        { a: "TURTLE", c: "Slow-moving island animal" },
+        { a: "BERRIES", c: "Professor warned never to eat the blue ones" },
+        { a: "SOPRANO", c: "Ginger's singing range" },
+        { a: "POISON", c: "The type of ivy Gilligan always finds" },
+        { a: "MATCHES", c: "Professor makes these from sulfur" },
+        { a: "MOSQUITO", c: "Stinging insect on the island" },
+        { a: "FISHING", c: "Main way they get protein" },
+        { a: "FLASHLIGHT", c: "Tool that always runs out of juice" },
+        { a: "SUPPLY", c: "What they hunt for in washed up crates" },
+        { a: "ANCHOR", c: "Heavy metal object that failed the ship" },
+        { a: "STORM", c: "What tossed the ship on its voyage" },
+        { a: "BASKET", c: "What Mary Ann uses for fruit" },
+        { a: "HAMLET", c: "Musical staged by Harold Hecuba" },
+        { a: "DREAMS", c: "Episodes where Gilligan is a king or spy" },
+        { a: "ALOHA", c: "A tropical greeting" }
+    ];
+
+    const SIZE = 18;
+    let currentPlacement = [];
+    let typingDirection = 'across';
+
+    /* --- 2. WIN EFFECTS & CONFETTI --- */
+    function checkWin() {
+        const inputs = document.querySelectorAll('#grid input');
+        if (inputs.length === 0) return;
+        
+        const allCorrect = Array.from(inputs).every(i => i.value.toUpperCase() === i.dataset.answer);
+        
+        if (allCorrect) {
+            playWinEffects();
+        }
+    }
+
+    function playWinEffects() {
+        // Play Sound
+        const audio = document.getElementById('winSound');
+        if (audio) {
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log("Sound ready for interaction"));
+        }
+
+        // Trigger Confetti
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.pointerEvents = 'none';
+            confetti.style.backgroundColor = ['#f4e4bc', '#006994', '#2E8B57', '#D94F3E', '#ffd700'][Math.floor(Math.random() * 5)];
+            confetti.style.top = '-10px';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.zIndex = '10001';
+            document.body.appendChild(confetti);
+
+            const fallDuration = Math.random() * 3 + 2;
+            confetti.animate([
+                { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+                { transform: `translateY(110vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+            ], {
+                duration: fallDuration * 1000,
+                easing: 'linear'
+            });
+            setTimeout(() => confetti.remove(), fallDuration * 1000);
+        }
+
+        // Alert
+        setTimeout(() => {
+            alert("🏝️ THE PROFESSOR IS IMPRESSED! 🏝️\nYou've solved the Island Crossword!");
+        }, 800);
+    }
+
+    /* --- 3. PUZZLE GENERATION LOGIC --- */
+    function generateNewPuzzle() {
+        const grid = Array(SIZE).fill(0).map(() => Array(SIZE).fill(''));
+        currentPlacement = [];
+        const shuffled = [...wordPool].sort(() => 0.5 - Math.random());
+        shuffled.forEach(wordObj => {
+            if (currentPlacement.length === 0) {
+                placeWord(grid, wordObj, 8, 4, 'across');
+            } else {
+                tryToFit(grid, wordObj);
+            }
+        });
+        renderGrid(grid);
+    }
+
+    function tryToFit(grid, wordObj) {
+        const word = wordObj.a;
+        for (let i = 0; i < word.length; i++) {
+            for (let placed of currentPlacement) {
+                for (let j = 0; j < placed.answer.length; j++) {
+                    if (word[i] === placed.answer[j]) {
+                        const dir = placed.dir === 'across' ? 'down' : 'across';
+                        const r = dir === 'down' ? placed.row - i : placed.row + j;
+                        const c = dir === 'down' ? placed.col + j : placed.col - i;
+                        if (canPlace(grid, word, r, c, dir)) {
+                            placeWord(grid, wordObj, r, c, dir);
+                            return;
                         }
                     }
                 }
             }
         }
-
-function canPlace(grid, word, r, c, dir) {
-    // 1. Check Bounds
-    if (r < 0 || r >= SIZE || c < 0 || c >= SIZE) return false;
-    if (dir === 'across' && c + word.length > SIZE) return false;
-    if (dir === 'down' && r + word.length > SIZE) return false;
-
-    // 2. Buffer Zone: Check square immediately BEFORE the word
-    let beforeR = r - (dir === 'down' ? 1 : 0);
-    let beforeC = c - (dir === 'across' ? 1 : 0);
-    if (beforeR >= 0 && beforeC >= 0 && grid[beforeR][beforeC] !== '') return false;
-
-    // 3. Buffer Zone: Check square immediately AFTER the word
-    let afterR = r + (dir === 'down' ? word.length : 0);
-    let afterC = c + (dir === 'across' ? word.length : 0);
-    if (afterR < SIZE && afterC < SIZE && grid[afterR][afterC] !== '') return false;
-
-    for (let i = 0; i < word.length; i++) {
-        let curR = r + (dir === 'down' ? i : 0);
-        let curC = c + (dir === 'across' ? i : 0);
-        
-        // 4. Check for Letter Conflicts
-        if (grid[curR][curC] !== '' && grid[curR][curC] !== word[i]) return false;
-
-        // 5. Parallel/Side-Swipe Check (Ensure words don't sit side-by-side)
-        if (grid[curR][curC] === '') {
-            if (dir === 'across') {
-                if (curR > 0 && grid[curR - 1][curC] !== '') return false;
-                if (curR < SIZE - 1 && grid[curR + 1][curC] !== '') return false;
-            } else {
-                if (curC > 0 && grid[curR][curC - 1] !== '') return false;
-                if (curC < SIZE - 1 && grid[curR][curC + 1] !== '') return false;
-            }
-        }
     }
-    return true;
-}
 
-        function placeWord(grid, wordObj, r, c, dir) {
-            for (let i = 0; i < wordObj.a.length; i++) {
-                grid[r + (dir === 'down' ? i : 0)][c + (dir === 'across' ? i : 0)] = wordObj.a[i];
-            }
-            currentPlacement.push({ ...wordObj, row: r, col: c, dir: dir, answer: wordObj.a });
-        }
+    function canPlace(grid, word, r, c, dir) {
+        if (r < 0 || r >= SIZE || c < 0 || c >= SIZE) return false;
+        if (dir === 'across' && c + word.length > SIZE) return false;
+        if (dir === 'down' && r + word.length > SIZE) return false;
 
-function renderGrid(logicalGrid) {
-    const gridEl = document.getElementById('grid');
-    gridEl.innerHTML = '';
-    document.getElementById('across-clues').innerHTML = '';
-    document.getElementById('down-clues').innerHTML = '';
-    const numberMap = {};
-    let numCounter = 1;
+        let beforeR = r - (dir === 'down' ? 1 : 0);
+        let beforeC = c - (dir === 'across' ? 1 : 0);
+        if (beforeR >= 0 && beforeC >= 0 && grid[beforeR][beforeC] !== '') return false;
 
-    currentPlacement.forEach(p => {
-        const key = `${p.row}-${p.col}`;
-        if (!numberMap[key]) numberMap[key] = numCounter++;
-        
-        // Create the clue container
-        const clueWrapper = document.createElement('div');
-        clueWrapper.style.display = 'flex';
-        clueWrapper.style.justifyContent = 'space-between';
-        clueWrapper.style.alignItems = 'center';
-        clueWrapper.className = 'clue-text';
+        let afterR = r + (dir === 'down' ? word.length : 0);
+        let afterC = c + (dir === 'across' ? word.length : 0);
+        if (afterR < SIZE && afterC < SIZE && grid[afterR][afterC] !== '') return false;
 
-        // The Clue Text
-        const textSpan = document.createElement('span');
-        textSpan.innerHTML = `<strong>${numberMap[key]}.</strong> ${p.c}`;
-        textSpan.onclick = () => focusStartOfWord(p.row, p.col);
-        
-        // The individual "Reveal Word" Button
-        const revealBtn = document.createElement('i');
-        revealBtn.className = 'fas fa-eye';
-        revealBtn.style.cursor = 'pointer';
-        revealBtn.style.marginLeft = '10px';
-        revealBtn.style.color = 'var(--palm)';
-        revealBtn.title = 'Reveal this word';
-        revealBtn.onclick = (e) => {
-            e.stopPropagation(); // Prevents focusing the word when clicking the eye
-            revealSpecificWord(p);
-        };
-
-        clueWrapper.appendChild(textSpan);
-        clueWrapper.appendChild(revealBtn);
-        document.getElementById(`${p.dir}-clues`).appendChild(clueWrapper);
-    });
-
-    for (let r = 0; r < SIZE; r++) {
-        for (let c = 0; c < SIZE; c++) {
-            const cell = document.createElement('div');
-            cell.className = 'cell' + (logicalGrid[r][c] === '' ? ' black' : '');
-            if (logicalGrid[r][c] !== '') {
-                if (numberMap[`${r}-${c}`]) {
-                    const span = document.createElement('span');
-                    span.className = 'number';
-                    span.innerText = numberMap[`${r}-${c}`];
-                    cell.appendChild(span);
+        for (let i = 0; i < word.length; i++) {
+            let curR = r + (dir === 'down' ? i : 0);
+            let curC = c + (dir === 'across' ? i : 0);
+            if (grid[curR][curC] !== '' && grid[curR][curC] !== word[i]) return false;
+            if (grid[curR][curC] === '') {
+                if (dir === 'across') {
+                    if (curR > 0 && grid[curR - 1][curC] !== '') return false;
+                    if (curR < SIZE - 1 && grid[curR + 1][curC] !== '') return false;
+                } else {
+                    if (curC > 0 && grid[curR][curC - 1] !== '') return false;
+                    if (curC < SIZE - 1 && grid[curR][curC + 1] !== '') return false;
                 }
-                const input = document.createElement('input');
-                input.maxLength = 1;
-                input.dataset.answer = logicalGrid[r][c];
-                input.dataset.r = r;
-                input.dataset.c = c;
-                
-                input.oninput = (e) => {
-                    if(e.target.value) moveFocus(parseInt(e.target.dataset.r), parseInt(e.target.dataset.c));
-                    checkWin();
-                };
-                input.onclick = () => detectDirection(r, c);
-                cell.appendChild(input);
             }
-            gridEl.appendChild(cell);
+        }
+        return true;
+    }
+
+    function placeWord(grid, wordObj, r, c, dir) {
+        for (let i = 0; i < wordObj.a.length; i++) {
+            grid[r + (dir === 'down' ? i : 0)][c + (dir === 'across' ? i : 0)] = wordObj.a[i];
+        }
+        currentPlacement.push({ ...wordObj, row: r, col: c, dir: dir, answer: wordObj.a });
+    }
+
+    /* --- 4. RENDERING & INTERACTION --- */
+    function renderGrid(logicalGrid) {
+        const gridEl = document.getElementById('grid');
+        gridEl.innerHTML = '';
+        document.getElementById('across-clues').innerHTML = '';
+        document.getElementById('down-clues').innerHTML = '';
+        const numberMap = {};
+        let numCounter = 1;
+
+        currentPlacement.forEach(p => {
+            const key = `${p.row}-${p.col}`;
+            if (!numberMap[key]) numberMap[key] = numCounter++;
+            
+            const clueWrapper = document.createElement('div');
+            clueWrapper.className = 'clue-text';
+            clueWrapper.style.display = 'flex';
+            clueWrapper.style.justifyContent = 'space-between';
+            
+            const textSpan = document.createElement('span');
+            textSpan.innerHTML = `<strong>${numberMap[key]}.</strong> ${p.c}`;
+            textSpan.onclick = () => focusStartOfWord(p.row, p.col);
+            
+            const revealBtn = document.createElement('i');
+            revealBtn.className = 'fas fa-eye';
+            revealBtn.style.color = 'var(--palm)';
+            revealBtn.style.cursor = 'pointer';
+            revealBtn.onclick = (e) => { e.stopPropagation(); revealSpecificWord(p); };
+
+            clueWrapper.appendChild(textSpan);
+            clueWrapper.appendChild(revealBtn);
+            document.getElementById(`${p.dir}-clues`).appendChild(clueWrapper);
+        });
+
+        for (let r = 0; r < SIZE; r++) {
+            for (let c = 0; c < SIZE; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell' + (logicalGrid[r][c] === '' ? ' black' : '');
+                if (logicalGrid[r][c] !== '') {
+                    if (numberMap[`${r}-${c}`]) {
+                        const span = document.createElement('span');
+                        span.className = 'number';
+                        span.innerText = numberMap[`${r}-${c}`];
+                        cell.appendChild(span);
+                    }
+                    const input = document.createElement('input');
+                    input.maxLength = 1;
+                    input.dataset.answer = logicalGrid[r][c];
+                    input.dataset.r = r;
+                    input.dataset.c = c;
+                    input.oninput = (e) => {
+                        if(e.target.value) moveFocus(parseInt(e.target.dataset.r), parseInt(e.target.dataset.c));
+                        checkWin();
+                    };
+                    input.onclick = () => detectDirection(r, c);
+                    cell.appendChild(input);
+                }
+                gridEl.appendChild(cell);
+            }
         }
     }
-}
 
-        function detectDirection(r, c) {
-            // If the cell belongs to both directions, it toggles. 
-            // Otherwise, it sets the only available direction.
-            const horizontal = currentPlacement.find(p => p.dir === 'across' && p.row === r && c >= p.col && c < p.col + p.answer.length);
-            const vertical = currentPlacement.find(p => p.dir === 'down' && p.col === c && r >= p.row && r < p.row + p.answer.length);
-            
-            if (horizontal && vertical) {
-                typingDirection = (typingDirection === 'across') ? 'down' : 'across';
-            } else if (horizontal) {
-                typingDirection = 'across';
-            } else if (vertical) {
-                typingDirection = 'down';
-            }
-        }
+    function detectDirection(r, c) {
+        const horiz = currentPlacement.find(p => p.dir === 'across' && p.row === r && c >= p.col && c < p.col + p.answer.length);
+        const vert = currentPlacement.find(p => p.dir === 'down' && p.col === c && r >= p.row && r < p.row + p.answer.length);
+        if (horiz && vert) typingDirection = (typingDirection === 'across') ? 'down' : 'across';
+        else if (horiz) typingDirection = 'across';
+        else if (vert) typingDirection = 'down';
+    }
 
-        function moveFocus(r, c) {
-            let nextR = r + (typingDirection === 'down' ? 1 : 0);
-            let nextC = c + (typingDirection === 'across' ? 1 : 0);
-            const nextInput = document.querySelector(`input[data-r="${nextR}"][data-c="${nextC}"]`);
-            if (nextInput) nextInput.focus();
-        }
+    function moveFocus(r, c) {
+        let nextR = r + (typingDirection === 'down' ? 1 : 0);
+        let nextC = c + (typingDirection === 'across' ? 1 : 0);
+        const nextInput = document.querySelector(`input[data-r="${nextR}"][data-c="${nextC}"]`);
+        if (nextInput) nextInput.focus();
+    }
 
-        function focusStartOfWord(r, c) {
+    function focusStartOfWord(r, c) {
+        const input = document.querySelector(`input[data-r="${r}"][data-c="${c}"]`);
+        if (input) { detectDirection(r, c); input.focus(); }
+    }
+
+    function revealSpecificWord(wordObj) {
+        for (let i = 0; i < wordObj.a.length; i++) {
+            let r = wordObj.row + (wordObj.dir === 'down' ? i : 0);
+            let c = wordObj.col + (wordObj.dir === 'across' ? i : 0);
             const input = document.querySelector(`input[data-r="${r}"][data-c="${c}"]`);
             if (input) {
-                detectDirection(r, c);
-                input.focus();
+                input.value = input.dataset.answer;
+                input.parentElement.classList.add('correct');
             }
         }
-
-        function checkWin() {
-            const inputs = document.querySelectorAll('input');
-            const allCorrect = Array.from(inputs).every(i => i.value.toUpperCase() === i.dataset.answer);
-            if (allCorrect && inputs.length > 0) {
-                document.getElementById('winSound').play();
-                alert("CONGRATULATIONS! The Professor is proud!");
-            }
-        }
-
-// New function to reveal just ONE word
-function revealSpecificWord(wordObj) {
-    for (let i = 0; i < wordObj.a.length; i++) {
-        let r = wordObj.row + (wordObj.dir === 'down' ? i : 0);
-        let c = wordObj.col + (wordObj.dir === 'across' ? i : 0);
-        const input = document.querySelector(`input[data-r="${r}"][data-c="${c}"]`);
-        if (input) {
-            input.value = input.dataset.answer;
-            input.parentElement.classList.add('correct');
-        }
+        checkWin();
     }
-    checkWin(); // Check if this was the last word needed
-}
 
-function revealAnswers() {
-    // Reveal everything
-    document.querySelectorAll('input').forEach(i => {
-        i.value = i.dataset.answer;
-        i.parentElement.classList.add('correct');
-    });
-    // Since everything is revealed, play the win effects!
-    document.getElementById('winSound').play();
-}
+    function revealAnswers() {
+        document.querySelectorAll('#grid input').forEach(i => {
+            i.value = i.dataset.answer;
+            i.parentElement.classList.add('correct');
+        });
+        playWinEffects();
+    }
 
-        function clearGrid() {
-            document.querySelectorAll('input').forEach(i => {
-                i.value = '';
-                i.parentElement.classList.remove('correct');
-            });
-        }
+    function clearGrid() {
+        document.querySelectorAll('input').forEach(i => {
+            i.value = '';
+            i.parentElement.classList.remove('correct');
+        });
+    }
 
-        generateNewPuzzle();
-    </script>
-
-</body>
-</html>
+    generateNewPuzzle();
+</script>
