@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Island Crossword</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+:root {
+        --ocean: #006994; 
+        --ocean-blue: #006994; 
+        --sand: #f4e4bc; 
+        --wood: #4b3621; 
+        --palm: #2E8B57; 
+        --cell-size: 35px;
+    }
+
+    body { 
+        font-family: 'Roboto Condensed', sans-serif; 
+        background-color: var(--sand); 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        padding: 0; /* Remove padding here so navbar can touch the edges */
+        margin: 0;
+    }
+
+    .navbar {
+        width: 100%; /* Makes it go all the way across */
+        background-color: var(--ocean-blue) !important; /* Force the blue color */
+        color: white;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: column; /* Stack logo above links for better fit */
+        align-items: center;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap; /* Allows links to wrap if there are too many */
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .nav-links a { 
+        text-decoration: none; 
+        color: white; 
+        font-weight: bold; 
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: var(--sand);
+    }
+
+    /* Keep your game content centered */
+    .theme-banner, h1, .controls, .game-container {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+
+   
+}
+
+        .theme-banner { width: 100%; max-width: 900px; height: 180px; background: var(--wood); margin-bottom: 20px; border: 6px solid white; border-radius: 10px; overflow: hidden; }
+        .theme-banner img { width: 100%; height: 100%; object-fit: cover; }
+        
+        h1 { font-family: 'Bangers'; color: var(--ocean); font-size: 3rem; margin: 0 0 15px 0; }
+
+        .controls { margin-bottom: 20px; display: flex; gap: 10px; }
+        .btn { font-family: 'Bangers'; padding: 8px 20px; font-size: 1.1rem; cursor: pointer; border: none; border-radius: 25px; color: white; transition: 0.2s; }
+        .btn-generate { background: var(--ocean); }
+        .btn-reveal { background: var(--palm); }
+        .btn-clear { background: #d94f3e; }
+
+        .game-container { display: flex; gap: 20px; background: white; padding: 20px; border-radius: 10px; border: 4px solid var(--wood); }
+#grid { 
+    display: grid; 
+    grid-template-columns: repeat(18, var(--cell-size)); /* Changed from 15 to 18 */
+    gap: 1px; 
+    background: var(--wood); 
+    border: 2px solid var(--wood); 
+}
+        
+        .cell { width: var(--cell-size); height: var(--cell-size); background: white; position: relative; }
+        .cell.black { background: var(--wood); }
+        .cell input { width: 100%; height: 100%; border: none; text-align: center; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; background: transparent; }
+        .cell .number { position: absolute; top: 1px; left: 2px; font-size: 9px; font-weight: bold; pointer-events: none; }
+        .correct { background-color: #c8e6c9 !important; }
+
+        .clues { 
+    width: 300px; 
+    text-align: left; 
+    max-height: 540px; 
+    overflow-y: scroll; /* Forces a scrollbar for easy reading */
+    padding: 0 10px; 
+    border-left: 2px solid var(--sand);
+}
+        .clues h3 { font-family: 'Bangers'; color: var(--wood); border-bottom: 2px solid var(--ocean); margin-top: 10px; }
+        .clue-text { font-size: 0.9rem; margin-bottom: 5px; cursor: pointer; }
+
+@media (max-width: 900px) { 
+    #grid { 
+        grid-template-columns: repeat(18, 20px); /* Adjust cell size for smaller screens */
+    } 
+    .cell { width: 20px; height: 20px; }
+}
+
+@media print {
+    /* Hide everything except the grid and clues */
+    .controls, .theme-banner, h1, #professor-note, .fas.fa-eye {
+        display: none !important;
+    }
+    
+    body {
+        background-color: white !important;
+        padding: 0;
+    }
+
+    .game-container {
+        border: none !important;
+        display: block !important; /* Stack clues under the grid for print */
+    }
+
+    #grid {
+        border: 2px solid black !important;
+        background: black !important; /* Ensures the "wood" lines are black ink */
+        margin-bottom: 20px;
+    }
+
+    .cell {
+        border: 1px solid black !important;
+    }
+
+    .cell.black {
+        background-color: black !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Hide the letters so the printed puzzle is blank */
+    .cell input {
+        visibility: hidden;
+    }
+
+    .clues {
+        width: 100% !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+    
+    .clue-text {
+        font-size: 12pt;
+        margin-bottom: 8px;
+    }
+}
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo"><i class="fas fa-puzzle-piece"></i> Island Crossword</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="pie.html">The Bakery</a>
+            <a href="radio.html">The Radio</a>
+            <a href="scratch.html">Scratch Sand</a>
+            <a href="inventions.html">Professors Inventions</a>
+	        <a href="contact.html">Contact Page</a>
+            <a href="bios.html">The Bios</a>
+            <a href="puzzle.html">Word Search</a>
+	        <a href="rescue.html">Certificate of Rescue</a>
+            <a href="sounds.html">Sound Board</a>
+			<a href="cross.html">Crossword</a>
+        </nav>
+    </header>
+    <div class="theme-banner"><img src="GIc.jpg" alt="Island Theme"></div>
+    <h1>GILLIGANS ISLAND CROSSWORD PUZZLE</h1>
+
+    <div class="controls">
+        <button class="btn btn-generate" onclick="generateNewPuzzle()"><i class="fas fa-sync"></i> NEW PUZZLE</button>
+        <button class="btn btn-reveal" onclick="revealAnswers()"><i class="fas fa-eye"></i> REVEAL</button>
+        <button class="btn btn-clear" onclick="clearGrid()"><i class="fas fa-eraser"></i> RESET</button>
+        <button class="btn" style="background: #555;" onclick="window.print()">
+    <i class="fas fa-print"></i> PRINT PUZZLE
+</button>
+    </div>
+	        <p class="subtitle">Double click the clue in the across & down column. Then the letter will automatically go to the next space when typed in.</p>
+	        <p class="subtitle">At the intersection of 2 letters you'll have to click the next space with your mouse to get to the next letter. Click the green eye if you get stuck. </p>
+    <div class="game-container">
+        <div id="grid"></div>
+        <div class="clues">
+            <h3>ACROSS</h3><div id="across-clues"></div>
+            <h3>DOWN</h3><div id="down-clues"></div>
+        </div>
+    </div>
+
+    <audio id="winSound" src="drums.mp3"></audio>
+
+    <script>
+const wordPool = [
+            { a: "GILLIGAN", c: "The bumbling First Mate" },
+            { a: "SKIPPER", c: "Jonas Grumby's nickname" },
+            { a: "PROFESSOR", c: "Roy Hinkley's title" },
+            { a: "GINGER", c: "The Movie Star" },
+            { a: "MARYANN", c: "The farm girl from Kansas" },
+            { a: "HOWELL", c: "The Millionaire's last name" },
+            { a: "MINNOW", c: "The tiny ship" },
+            { a: "COCONUT", c: "Professor uses these for batteries" },
+            { a: "BAMBOO", c: "Main building material on island" },
+            { a: "LAGOON", c: "Where the ship ran aground" },
+            { a: "RADIO", c: "Their only link to civilization" },
+            { a: "PIE", c: "Mary Ann's famous dessert" },
+            { a: "HAMMOCK", c: "Island bed" },
+            { a: "RESCUE", c: "The goal of every episode" },
+            { a: "ISLAND", c: "Uncharted home" },
+            { a: "MONKEY", c: "Common jungle animal" },
+            { a: "BANANA", c: "Yellow tropical fruit" },
+            { a: "HUT", c: "Type of dwelling built" },
+            { a: "JUNGLE", c: "Dense island forest" },
+            { a: "BEACH", c: "Where they search for help" },
+            { a: "CAPTAIN", c: "The Skipper's formal rank" },
+            { a: "LOVE", c: "The Millionaire's wife, ___y" },
+            { a: "CASTAWAY", c: "General term for the group" },
+            { a: "VOYAGE", c: "A three hour ___" },
+            { a: "SMILE", c: "Ginger's best feature" },
+            { a: "CAVE", c: "Where they hide from storms" },
+            { a: "FLARE", c: "Used for signaling ships" },
+            { a: "KANSAS", c: "Where Mary Ann is from" },
+            { a: "GRUMBY", c: "The Skipper's actual last name" },
+            { a: "WHITE", c: "The color of Gilligan's iconic hat" },
+            { a: "TURTLE", c: "Slow-moving island animal" },
+            { a: "BERRIES", c: "Professor warned never to eat the blue ones" },
+            { a: "SOPRANO", c: "Ginger's singing range" },
+            { a: "POISON", c: "The type of ivy Gilligan always finds" },
+            { a: "MATCHES", c: "Professor makes these from sulfur" },
+            { a: "MOSQUITO", c: "Stinging insect on the island" },
+            { a: "FISHING", c: "Main way they get protein" },
+            { a: "FLASHLIGHT", c: "Tool that always runs out of juice" },
+            { a: "SUPPLY", c: "What they hunt for in washed up crates" },
+            { a: "ANCHOR", c: "Heavy metal object that failed the ship" },
+            { a: "STORM", c: "What tossed the ship on its voyage" },
+            { a: "BASKET", c: "What Mary Ann uses for fruit" },
+            { a: "HAMLET", c: "Musical staged by Harold Hecuba" },
+            { a: "DREAMS", c: "Episodes where Gilligan is a king or spy" },
+            { a: "ALOHA", c: "A tropical greeting" }
+        ];
+         
+
+
+const SIZE = 18; // Increased size to give words more room
+let currentPlacement = [];
+let typingDirection = 'across';
+
+function generateNewPuzzle() {
+    // Clear the grid and the placement tracker
+    const grid = Array(SIZE).fill(0).map(() => Array(SIZE).fill(''));
+    currentPlacement = [];
+    
+    // Shuffle the expanded pool
+    const shuffled = [...wordPool].sort(() => 0.5 - Math.random());
+    
+    shuffled.forEach(wordObj => {
+        if (currentPlacement.length === 0) {
+            // Start the first word closer to the center of the 18x18 grid
+            placeWord(grid, wordObj, 8, 4, 'across');
+        } else {
+            tryToFit(grid, wordObj);
+        }
+    });
+    renderGrid(grid);
+}
+
+        function tryToFit(grid, wordObj) {
+            const word = wordObj.a;
+            for (let i = 0; i < word.length; i++) {
+                for (let placed of currentPlacement) {
+                    for (let j = 0; j < placed.answer.length; j++) {
+                        if (word[i] === placed.answer[j]) {
+                            const dir = placed.dir === 'across' ? 'down' : 'across';
+                            const r = dir === 'down' ? placed.row - i : placed.row + j;
+                            const c = dir === 'down' ? placed.col + j : placed.col - i;
+                            if (canPlace(grid, word, r, c, dir)) {
+                                placeWord(grid, wordObj, r, c, dir);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+function canPlace(grid, word, r, c, dir) {
+    // 1. Check Bounds
+    if (r < 0 || r >= SIZE || c < 0 || c >= SIZE) return false;
+    if (dir === 'across' && c + word.length > SIZE) return false;
+    if (dir === 'down' && r + word.length > SIZE) return false;
+
+    // 2. Buffer Zone: Check square immediately BEFORE the word
+    let beforeR = r - (dir === 'down' ? 1 : 0);
+    let beforeC = c - (dir === 'across' ? 1 : 0);
+    if (beforeR >= 0 && beforeC >= 0 && grid[beforeR][beforeC] !== '') return false;
+
+    // 3. Buffer Zone: Check square immediately AFTER the word
+    let afterR = r + (dir === 'down' ? word.length : 0);
+    let afterC = c + (dir === 'across' ? word.length : 0);
+    if (afterR < SIZE && afterC < SIZE && grid[afterR][afterC] !== '') return false;
+
+    for (let i = 0; i < word.length; i++) {
+        let curR = r + (dir === 'down' ? i : 0);
+        let curC = c + (dir === 'across' ? i : 0);
+        
+        // 4. Check for Letter Conflicts
+        if (grid[curR][curC] !== '' && grid[curR][curC] !== word[i]) return false;
+
+        // 5. Parallel/Side-Swipe Check (Ensure words don't sit side-by-side)
+        if (grid[curR][curC] === '') {
+            if (dir === 'across') {
+                if (curR > 0 && grid[curR - 1][curC] !== '') return false;
+                if (curR < SIZE - 1 && grid[curR + 1][curC] !== '') return false;
+            } else {
+                if (curC > 0 && grid[curR][curC - 1] !== '') return false;
+                if (curC < SIZE - 1 && grid[curR][curC + 1] !== '') return false;
+            }
+        }
+    }
+    return true;
+}
+
+        function placeWord(grid, wordObj, r, c, dir) {
+            for (let i = 0; i < wordObj.a.length; i++) {
+                grid[r + (dir === 'down' ? i : 0)][c + (dir === 'across' ? i : 0)] = wordObj.a[i];
+            }
+            currentPlacement.push({ ...wordObj, row: r, col: c, dir: dir, answer: wordObj.a });
+        }
+
+function renderGrid(logicalGrid) {
+    const gridEl = document.getElementById('grid');
+    gridEl.innerHTML = '';
+    document.getElementById('across-clues').innerHTML = '';
+    document.getElementById('down-clues').innerHTML = '';
+    const numberMap = {};
+    let numCounter = 1;
+
+    currentPlacement.forEach(p => {
+        const key = `${p.row}-${p.col}`;
+        if (!numberMap[key]) numberMap[key] = numCounter++;
+        
+        // Create the clue container
+        const clueWrapper = document.createElement('div');
+        clueWrapper.style.display = 'flex';
+        clueWrapper.style.justifyContent = 'space-between';
+        clueWrapper.style.alignItems = 'center';
+        clueWrapper.className = 'clue-text';
+
+        // The Clue Text
+        const textSpan = document.createElement('span');
+        textSpan.innerHTML = `<strong>${numberMap[key]}.</strong> ${p.c}`;
+        textSpan.onclick = () => focusStartOfWord(p.row, p.col);
+        
+        // The individual "Reveal Word" Button
+        const revealBtn = document.createElement('i');
+        revealBtn.className = 'fas fa-eye';
+        revealBtn.style.cursor = 'pointer';
+        revealBtn.style.marginLeft = '10px';
+        revealBtn.style.color = 'var(--palm)';
+        revealBtn.title = 'Reveal this word';
+        revealBtn.onclick = (e) => {
+            e.stopPropagation(); // Prevents focusing the word when clicking the eye
+            revealSpecificWord(p);
+        };
+
+        clueWrapper.appendChild(textSpan);
+        clueWrapper.appendChild(revealBtn);
+        document.getElementById(`${p.dir}-clues`).appendChild(clueWrapper);
+    });
+
+    for (let r = 0; r < SIZE; r++) {
+        for (let c = 0; c < SIZE; c++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell' + (logicalGrid[r][c] === '' ? ' black' : '');
+            if (logicalGrid[r][c] !== '') {
+                if (numberMap[`${r}-${c}`]) {
+                    const span = document.createElement('span');
+                    span.className = 'number';
+                    span.innerText = numberMap[`${r}-${c}`];
+                    cell.appendChild(span);
+                }
+                const input = document.createElement('input');
+                input.maxLength = 1;
+                input.dataset.answer = logicalGrid[r][c];
+                input.dataset.r = r;
+                input.dataset.c = c;
+                
+                input.oninput = (e) => {
+                    if(e.target.value) moveFocus(parseInt(e.target.dataset.r), parseInt(e.target.dataset.c));
+                    checkWin();
+                };
+                input.onclick = () => detectDirection(r, c);
+                cell.appendChild(input);
+            }
+            gridEl.appendChild(cell);
+        }
+    }
+}
+
+        function detectDirection(r, c) {
+            // If the cell belongs to both directions, it toggles. 
+            // Otherwise, it sets the only available direction.
+            const horizontal = currentPlacement.find(p => p.dir === 'across' && p.row === r && c >= p.col && c < p.col + p.answer.length);
+            const vertical = currentPlacement.find(p => p.dir === 'down' && p.col === c && r >= p.row && r < p.row + p.answer.length);
+            
+            if (horizontal && vertical) {
+                typingDirection = (typingDirection === 'across') ? 'down' : 'across';
+            } else if (horizontal) {
+                typingDirection = 'across';
+            } else if (vertical) {
+                typingDirection = 'down';
+            }
+        }
+
+        function moveFocus(r, c) {
+            let nextR = r + (typingDirection === 'down' ? 1 : 0);
+            let nextC = c + (typingDirection === 'across' ? 1 : 0);
+            const nextInput = document.querySelector(`input[data-r="${nextR}"][data-c="${nextC}"]`);
+            if (nextInput) nextInput.focus();
+        }
+
+        function focusStartOfWord(r, c) {
+            const input = document.querySelector(`input[data-r="${r}"][data-c="${c}"]`);
+            if (input) {
+                detectDirection(r, c);
+                input.focus();
+            }
+        }
+
+        function checkWin() {
+            const inputs = document.querySelectorAll('input');
+            const allCorrect = Array.from(inputs).every(i => i.value.toUpperCase() === i.dataset.answer);
+            if (allCorrect && inputs.length > 0) {
+                document.getElementById('winSound').play();
+                alert("CONGRATULATIONS! The Professor is proud!");
+            }
+        }
+
+// New function to reveal just ONE word
+function revealSpecificWord(wordObj) {
+    for (let i = 0; i < wordObj.a.length; i++) {
+        let r = wordObj.row + (wordObj.dir === 'down' ? i : 0);
+        let c = wordObj.col + (wordObj.dir === 'across' ? i : 0);
+        const input = document.querySelector(`input[data-r="${r}"][data-c="${c}"]`);
+        if (input) {
+            input.value = input.dataset.answer;
+            input.parentElement.classList.add('correct');
+        }
+    }
+    checkWin(); // Check if this was the last word needed
+}
+
+function revealAnswers() {
+    // Reveal everything
+    document.querySelectorAll('input').forEach(i => {
+        i.value = i.dataset.answer;
+        i.parentElement.classList.add('correct');
+    });
+    // Since everything is revealed, play the win effects!
+    document.getElementById('winSound').play();
+}
+
+        function clearGrid() {
+            document.querySelectorAll('input').forEach(i => {
+                i.value = '';
+                i.parentElement.classList.remove('correct');
+            });
+        }
+
+        generateNewPuzzle();
+    </script>
+
+</body>
+</html>

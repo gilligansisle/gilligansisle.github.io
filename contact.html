@@ -8,29 +8,64 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --ocean-blue: #006994;
-            --sand: #f4e4bc;
-            --ink: #2c3e50;
-            --parchment: #fdf5e6;
-        }
+:root {
+        --ocean: #006994; 
+        --ocean-blue: #006994; 
+        --sand: #f4e4bc; 
+        --wood: #4b3621; 
+        --palm: #2E8B57;
+        --ink: #2c3e50;
+        --parchment: #fdf5e6;		
+        --cell-size: 35px;
+    }
 
-        body {
-            font-family: 'Roboto Condensed', sans-serif;
-            background-color: var(--sand);
-            margin: 0;
-            text-align: center;
-        }
+    body { 
+        font-family: 'Roboto Condensed', sans-serif; 
+        background-color: var(--sand); 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        padding: 0; /* Remove padding here so navbar can touch the edges */
+        margin: 0;
+    }
 
-        .navbar {
-            background-color: var(--ocean-blue);
-            color: white;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .nav-links a { text-decoration: none; color: white; font-weight: bold; margin-left: 20px; }
+    .navbar {
+        width: 100%; /* Makes it go all the way across */
+        background-color: var(--ocean-blue) !important; /* Force the blue color */
+        color: white;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: column; /* Stack logo above links for better fit */
+        align-items: center;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap; /* Allows links to wrap if there are too many */
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .nav-links a { 
+        text-decoration: none; 
+        color: white; 
+        font-weight: bold; 
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: var(--sand);
+    }
+
+    /* Keep your game content centered */
+    .theme-banner, h1, .controls, .game-container {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
 
         .container { padding: 40px 20px; }
 
@@ -114,6 +149,7 @@
             <a href="puzzle.html">Word Search</a>
 	        <a href="rescue.html">Certificate of Rescue</a>
             <a href="sounds.html">Sound Board</a>
+			<a href="cross.html">Crossword</a>
         </nav>
     </header>
 
